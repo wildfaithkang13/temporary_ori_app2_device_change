@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <title>Location API Sample</title>
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+    <style>
+      #map {
+        width: 400px;
+        height: 300px;
+        border: solid 1px #ccc;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Location API Sample</h1>
+    <div id="map"></div>
+    <div id="message"></div>
+    <script>
+       window.onload =function() {
+          if (navigator.geolocation) {
+              navigator.geolocation.getCurrentPosition(function(position) {
+                  var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                  var options = {
+                      zoom: 15,
+                      center: latlng,
+                      mapTypeId: google.maps.MapTypeId.ROADMAP
+                  };
+                  var map = new google.maps.Map(document.getElementById('map'), options);
+                  var marker = new google.maps.Marker({
+                      position: latlng,
+                      map: map,
+                      title: '現在地'
+                  });
+              }, function(e) {
+                  document.getElementById('message').innerHTML = typeof e == 'string' ? e : e.message;
+              });
+          } else {
+              document.getElementById('message').innerHTML = 'Location APIがサポートされていません。';
+          }
+      };
+    </script>
+  </body>
+</html>

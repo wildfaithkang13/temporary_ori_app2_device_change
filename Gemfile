@@ -25,14 +25,15 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'geocoder'
 
-# Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
+gem 'devise'
 
-# Use Unicorn as the app server
-# gem 'unicorn'
+gem 'rails_admin'
 
-# Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
+gem 'twitter-bootstrap-rails'
+
+gem 'momentjs-rails'
+
+gem 'bootstrap3-datetimepicker-rails'
 
 group :development do
   gem 'dotenv-rails'
@@ -47,4 +48,6 @@ group :development, :test do
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
+  gem 'pry-rails'
+  gem 'better_errors'
 end

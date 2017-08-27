@@ -1,0 +1,21 @@
+<h3>以下の内容で、投稿してよろしいですか？</h3>
+
+<%= form_for(@new_coupon_shop) do |f| %>
+  <%= f.hidden_field :telephone_number %>
+  <%= f.hidden_field :shop_name %>
+  <%= f.hidden_field :shop_address %>
+  <%= f.hidden_field :all_day_flag %>
+  <%= f.hidden_field :open_time %>
+  <%= f.hidden_field :close_time %>
+  <p>電話番号:<%= @new_coupon_shop.telephone_number %></p>
+  <p>店名:<%= @new_coupon_shop.shop_name %></p>
+  <p>住所:<%= @new_coupon_shop.shop_address %></p>
+  <p>24時間営業フラグ:<%= @new_coupon_shop.all_day_flag %></p>
+  <% unless @new_coupon_shop.all_day_flag %>
+    <p>開店時刻:<%= @new_coupon_shop.open_time %></p>
+    <p>閉店時刻:<%= @new_coupon_shop.close_time %></p>
+  <% end %>
+  <%= f.submit "登録する" %>
+<% end %>
+<!-- method getをしないとjqueryが読み込まれない -->
+<%= link_to "クーポン利用投稿登録画面に戻る", new_coupon_shop_list_path, method: 'get' %>

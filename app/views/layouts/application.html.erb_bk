@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Otocoupon</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+  <!-- ヘッダーコンテンツ -->
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#patern03">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <div class="navbar-brand"><%= link_to 'Otocoupon', root_path  %></div>
+      </div>
+
+      <div id="patern03" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav navbar-right">
+        <header>
+        <% if user_signed_in? %>
+          <li><%= link_to 'クーポン投稿', new_coupon_path%></li>
+          <li><%= link_to 'ログアウト', destroy_user_session_path, method: :delete %></li>
+        <% else %>
+          <li><%= link_to 'ログイン', new_user_session_path  %></li>
+          <li><%= link_to 'サインアップ', new_user_registration_path %></li>
+        <% end %>
+        </header>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+<br><br>
+
+<style type="text/css">
+ #map { height: 1000px; /* 元々のデフォルト値は400px*/
+ margin-left:auto;    /* 左側マージンを自動的に空ける */
+ margin-right:auto;   /* 右側マージンを自動的に空ける */
+ text-align:left;     /* 中身を左側表示に戻す */
+ width: 80%;}
+</style>
+
+<%= yield %>
+
+  <!-- ここでGoogle Mapを表示させる -->
+  <div id="map">
+
+  </div><br>
+
+<!-- yieldの目的 = アクセスしたごとに読み込まれる-->
+<!--
+indexの場合はindex.html.erbに記載された内容が反映される
+newの場合はnew.html.erbの記載した内容が反映される
+-->
+
+
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<%= @gmapkey %>"></script>
+</body>
+</html>

@@ -1,3 +1,24 @@
 // Place all the styles related to the coupons controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+//ログインした時に表示するメッセージの設定
+.flash {
+  color: white;
+  padding-top: 10px;
+}
+
+//メニューを横並びにする
+header ul {
+  margin: 0 auto;
+  list-style: none;
+}
+
+header li {
+  float: left;
+  width: auto;
+}
+
+.coupon-time-click {
+  display: block;
+}

@@ -1,0 +1,30 @@
+<%= form_for(@new_coupon_shop, url: confirm_coupon_shop_lists_path) do |f| %>
+
+<% if @new_coupon_shop.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= @new_coupon_shop.errors.count %>件のエラーがあります。</h2>
+    <ul>
+    <% @new_coupon_shop.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+
+  <%= f.label :telephone_number, "電話番号"%> <%= f.text_field :telephone_number %> ※ハイフン不要
+  <br><%= f.label :shop_name, "店名"%> <%= f.text_field :shop_name %>
+  <br><%= f.label :shop_address, "住所"%> <%= f.text_field :shop_address %>
+  <br><%= f.label :all_day_flag, "24時間営業"%>
+  <div class="coupon-check">
+    <label><%= f.radio_button :all_day_flag, "true" %> YES</label>
+    <label><%= f.radio_button :all_day_flag, "false" ,{:checked => true}%> NO</label>
+  </div>
+
+　<div class="coupon-time-click">
+  <br><%= f.label :open_time, "開店時刻"%> <%= f.time_select :open_time %>
+  <br><%= f.label :close_time, "閉店時刻"%> <%= f.time_select :close_time%>
+　</div>
+
+  <br>
+  <%= f.submit("利用登録") %>
+<% end %>
