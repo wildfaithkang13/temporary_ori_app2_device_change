@@ -1,0 +1,67 @@
+class CouponsController < ApplicationController
+  before_action :authenticate_user!
+  def index
+    #トップページが表示された時はデフォルトとして現在地を表示させる
+    #@latitude = '35.6585805'
+    #@longitude = '139.7454329'
+    #@address = '〒105-0011 東京都港区芝公園４丁目２-８'
+    #Google MapのAPIキーを取得する
+    @gmapkey = ENV["GOOGLE_MAP_API"]
+    @coupons = Coupon.all
+  end
+
+  def new
+    @coupon = Coupon.new
+  end
+
+  def create
+    # = SecureRandom.uuid
+    @coupon = Coupon.new(coupons_params)
+    @coupon.available_end_time = @coupon.available_end_time + 3599
+    if @coupon.save
+      # 一覧画面へ遷移して"ブログを作成しました！"とメッセージを表示します。
+      redirect_to root_path, notice: "クーポンを投稿しました！"
+    else
+      # 入力フォームを再描画します。
+      render 'new'
+    end
+  end
+
+  def edit
+  end
+
+  def confirm
+    @coupon = Coupon.new(coupons_params)
+  end
+
+  #クーポン投稿利用登録画面へ遷移する
+  def manager_login
+  end
+
+  def login_check
+    @cmi = params[:common_manager_id]
+    @smi = params[:shop_manage_id]
+    #バリデーションチェック
+    #管理者IDが指定された値と一致しない場合は失敗とする
+    unless @cmi == 'common'
+      redirect_to manager_login_coupons_path, notice: '管理者共通IDが正しくありません。'
+    else
+
+      @result = CouponShopList.where(shop_management_id: @smi)
+      unless @result.blank?
+        #指定店舗の関係者としてログインする
+        redirect_to root_path, notice: 'shop_manager'
+      else
+        #通常の管理者としてログインする
+        redirect_to root_path, notice: 'general_manager'
+      end
+    end
+
+
+  end
+
+  private
+  def coupons_params
+    params.require(:coupon).permit(:shop_name, :shop_address, :coupon_content, :available_start_time, :available_end_time)
+  end
+end

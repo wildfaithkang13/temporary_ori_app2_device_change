@@ -1,5 +1,6 @@
 class CouponShopListsController < ApplicationController
 
+  #ショップの管理者のみがリクエストできる(ShopManager)
   def index
   end
 
@@ -12,6 +13,7 @@ class CouponShopListsController < ApplicationController
     if @new_coupon_shop.all_day_flag
       @new_coupon_shop.open_time = nil
       @new_coupon_shop.close_time = nil
+      @new_coupon_shop.shop_management_id = SecureRandom.uuid
     end
 
     if @new_coupon_shop.save

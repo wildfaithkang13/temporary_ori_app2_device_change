@@ -1,0 +1,7 @@
+<h1>ようこそここへ</h1>
+<%= notice %>
+<%= form_tag({ :controller => 'coupons', :action => 'login_check' }, { :method => :get}) do %>
+  <p>管理者共通ID <%= text_field_tag :common_manager_id, '', { :size => 25 } %></p>
+  <p>ショップ管理ID <%= text_field_tag :shop_manage_id, '', { :size => 25 } %></p>
+  <%= submit_tag '　送信する　' %>
+<% end %>

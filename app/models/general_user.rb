@@ -1,0 +1,2 @@
+class GeneralUser < User
+end

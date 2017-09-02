@@ -1,0 +1,2 @@
+class GeneralUserOmniauthCallbacksController < Devise::OmniauthCallbacksController
+end

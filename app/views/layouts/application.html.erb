@@ -22,22 +22,29 @@
       </div>
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav navbar-right">
-          <% if user_signed_in? %>
-            <li><%= link_to "クーポン投稿利用登録", :controller => "coupon_shop_lists", :action => "new" %></li>
+        <% if shop_manager_signed_in? || general_user_signed_in? %>
+          <% if shop_manager_signed_in? %>
+            <!-- 管理者その2の場合に以下を表示する -->
             <li><%= link_to 'クーポン投稿', new_coupon_path%></li>
-            <li><%= link_to 'お気に入りリスト'%></li>
-            <li><%= link_to 'ログアウト', destroy_user_session_path, method: :delete %></li>
-          <% else %>
-            <li><%= link_to 'ログイン', new_user_session_path %></li>
-            <li><%= link_to 'サインアップ', new_user_registration_path %></li>
+            <!-- 管理者その1の場合に以下を表示する -->
+            <li><%= link_to 'クーポン投稿利用登録', new_coupon_shop_list_path %></li>
+            <li><%= link_to 'ログアウト', destroy_shop_manager_session_path, method: :delete %></li>
           <% end %>
+          <% if general_user_signed_in? %>
+            <!--<li><%= link_to "クーポン投稿利用登録", :controller => "coupon_shop_lists", :action => "new" %></li>-->
+              <li><%= link_to 'お気に入りショップリスト' %></li>
+              <li><%= link_to 'ログアウト', destroy_general_user_session_path, method: :delete %></li>
+          <% end %>
+        <% else %>
+          <li><%= link_to 'ログイン', new_session_path(resource_name) %></li>
+          <li><%= link_to 'サインアップ', new_registration_path(resource_name) %></li>
+        <% end %>
         </ul>
       </div>
     </div>
   </nav>
     </header>
 <br><br>
-
 <%= yield %>
   <br>
 
@@ -47,6 +54,6 @@ indexの場合はindex.html.erbに記載された内容が反映される
 newの場合はnew.html.erbの記載した内容が反映される
 -->
 
-  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<%= @gmapkey %>"></script>
+  <!--<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<%#= @gmapkey %>"></script>-->
 </body>
 </html>

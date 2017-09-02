@@ -17,7 +17,7 @@
 -->
 
 <style type="text/css">
- #map { height: 1000px; /* 元々のデフォルト値は400px*/
+ #map { height: 300px; /* 元々のデフォルト値は400pxで理想は1000px*/
  margin-left:auto;    /* 左側マージンを自動的に空ける */
  margin-right:auto;   /* 右側マージンを自動的に空ける */
  text-align:left;     /* 中身を左側表示に戻す */
@@ -45,6 +45,7 @@
 <% if @coupons.present? %>
 <br>
 <hr>
+  <b>現在地付近のクーポン情報</b>
   <% @coupons.each do |coupon| %>
       <p>クーポン内容：<%= coupon.coupon_content %></p>
       <p>クーポン利用開始時刻：<%= coupon.available_start_time %></p>

@@ -8,57 +8,47 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-  <!-- ヘッダーコンテンツ -->
+  <header>
   <nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
+    <div class="container-fluid">
       <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#patern03">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <div class="navbar-brand"><%= link_to 'Otocoupon', root_path  %></div>
+        <%= link_to "Otocoupon", root_path, class: "navbar-brand" %>
       </div>
-
-      <div id="patern03" class="collapse navbar-collapse">
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav navbar-right">
-        <header>
-        <% if user_signed_in? %>
-          <li><%= link_to 'クーポン投稿', new_coupon_path%></li>
-          <li><%= link_to 'ログアウト', destroy_user_session_path, method: :delete %></li>
-        <% else %>
-          <li><%= link_to 'ログイン', new_user_session_path  %></li>
-          <li><%= link_to 'サインアップ', new_user_registration_path %></li>
-        <% end %>
-        </header>
+          <% if user_signed_in? %>
+              <% if notice == 'shop_manager'%>
+                <li><%= link_to 'クーポン投稿', new_coupon_path%></li>
+              <% elsif notice == 'general_manager' %>
+                <li><%= link_to "クーポン投稿利用登録", :controller => "coupon_shop_lists", :action => "new" %></li>
+              <% else %>
+                <li><%= link_to '管理者モードに切り替える', :controller => "coupons", :action => "manager_login" %></li>
+              <% end %>
+            <li><%= link_to 'ログアウト', destroy_user_session_path, method: :delete %></li>
+          <% else %>
+            <li><%= link_to 'ログイン', new_user_session_path %></li>
+            <li><%= link_to 'サインアップ', new_user_registration_path %></li>
+          <% end %>
         </ul>
       </div>
     </div>
   </nav>
-
+    </header>
 <br><br>
-
-<style type="text/css">
- #map { height: 1000px; /* 元々のデフォルト値は400px*/
- margin-left:auto;    /* 左側マージンを自動的に空ける */
- margin-right:auto;   /* 右側マージンを自動的に空ける */
- text-align:left;     /* 中身を左側表示に戻す */
- width: 80%;}
-</style>
-
 <%= yield %>
-
-  <!-- ここでGoogle Mapを表示させる -->
-  <div id="map">
-
-  </div><br>
+  <br>
 
 <!-- yieldの目的 = アクセスしたごとに読み込まれる-->
 <!--
 indexの場合はindex.html.erbに記載された内容が反映される
 newの場合はnew.html.erbの記載した内容が反映される
 -->
-
 
   <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<%= @gmapkey %>"></script>
 </body>

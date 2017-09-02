@@ -32,12 +32,6 @@ class CouponsController < ApplicationController
 
   def confirm
     @coupon = Coupon.new(coupons_params)
-    #render :index if @coupon.invalid?
-  end
-
-  #クーポン投稿利用登録画面へ遷移する
-  def register_post
-
   end
 
   private

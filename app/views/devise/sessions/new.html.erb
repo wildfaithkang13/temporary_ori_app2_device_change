@@ -14,6 +14,17 @@
       <div class="field">
         <%= f.password_field :password, autocomplete: "off", class: "form-control", placeholder: "パスワード" %>
       </div>
+      <!--
+      <div class="isAdmin">
+        <label><%= f.radio_button :admin, "true" %> 一般ユーザー</label>
+        <label><%= f.radio_button :admin, "false" ,{:checked => true}%> 管理者</label>
+      </div>
+
+      <div class="admin-id">
+        <%= f.password_field :shop_manage_id, autocomplete: "off", class: "form-control", placeholder: "管理者コード　※必須入力" %>
+        <%= f.password_field :shop_manage_id, autocomplete: "off", class: "form-control", placeholder: "ショップ管理ID  ※付与されている場合は入力" %>
+      </div>
+    -->
 
       <% if devise_mapping.rememberable? %>
         <div class="field">

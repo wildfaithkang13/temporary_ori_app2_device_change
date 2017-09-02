@@ -1,0 +1,2 @@
+module GeneralUserConfirmationsHelper
+end

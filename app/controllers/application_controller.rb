@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base
+
+  devise_group :user, contains: [:user, :shop_manager]
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
@@ -9,11 +11,15 @@ class ApplicationController < ActionController::Base
   #変数PERMISSIBLE_ATTRIBUTESに配列[:name]を代入
   PERMISSIBLE_ATTRIBUTES = %i(name)
 
-  protected
+  # Devise helper configuration
+  helper_method :current_shop_manager, :current_general_user,
+    :require_admin!, :require_restaurant!, :require_staff!
 
+  protected
     #deviseのストロングパラメーターにカラム追加するメソッドを定義
     def configure_permitted_parameters
       devise_parameter_sanitizer.permit(:sign_up, keys: PERMISSIBLE_ATTRIBUTES)
       devise_parameter_sanitizer.permit(:account_update, keys: PERMISSIBLE_ATTRIBUTES)
     end
+
 end
