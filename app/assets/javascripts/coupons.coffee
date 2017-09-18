@@ -14,10 +14,10 @@ $ ->
 
 #管理者モードでログインするか一般ユーザーでログインするかを制御する
 $ ->
-  $('.isAdmin input[type=radio]').change (e) ->
+  $('.holiday input[type=radio]').change (e) ->
     if e.target.value == 'true'
-      $('.admin-id').css 'display', 'none'
+      $('.holiday-condition').css 'display', 'none'
     else
-      $('.admin-id').css 'display', 'block'
+      $('.holiday-condition').css 'display', 'block'
     return
   return

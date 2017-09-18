@@ -1,2 +1,0 @@
-class GeneralUserConfirmationsController < Devise::ConfirmationsController
-end

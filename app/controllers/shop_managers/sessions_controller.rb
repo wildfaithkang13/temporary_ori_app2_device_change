@@ -14,13 +14,26 @@ class ShopManagers::SessionsController < Devise::SessionsController
 
      #ログイン画面で入力した管理者IDをアトリビュートに入れる
      current_user.manager_id = params[:shop_manager][:manager_id]
-     if current_user.shop_manage_id == "" || !current_user.shop_manage_id == "test" then
+     if current_user.manager_id.blank?
+       reset_session
+       redirect_to new_shop_manager_session_path, alert: "管理者IDが入力されておりません。"
+     elsif current_user.manager_id != "test"
        reset_session
        redirect_to new_shop_manager_session_path, alert: "管理者IDが間違っています。"
      else
-       #current_user.shop_manage_id = CouponShopList.find_by_shop_management_id(self.shop_manage_id)
        #入力したショップ管理をキーにクーポンショップリストテーブルを検索する
        current_user.shop_manage_id = CouponShopList.find_by_shop_management_id(params[:shop_manager][:shop_manage_id])
+       unless current_user.shop_manage_id.blank?
+         user = ShopManager.find(current_user.id)
+         user.status = '30'
+         #ショップ入力したショップ管理番号にお店の管理者としてクーポンを発行するため、使用中にする
+         user.used_shop_manage_id = current_user.shop_manage_id.shop_management_id
+         user.save
+       else
+         user = ShopManager.find(current_user.id)
+         user.status = '20'
+         user.save
+       end
        super
      end
    end

@@ -12,10 +12,20 @@
 <% end %>
 
   <%= f.label :telephone_number, "電話番号"%> <%= f.text_field :telephone_number %> ※ハイフン不要
-  <!--<br><%= f.label :shop_name, "店名"%> <%= f.text_field :shop_name %>-->
   <br><%= f.label :shop_name, "店名"%> <%= f.text_field :shop_name, value: 'aaaaa' %>
-
+  <br><%= f.label :occupation_code, "職種"%>
+  <%= f.select :occupation_code, [
+                                  ["ホテル・旅館", "hotel"],
+                                  ["フィットネス(ジム・運動場・プールなど)", "gymnasium"],
+                                  ["風俗・水商売", "nightlife"],
+                                  ["医療(薬局・ドラッグストア)", "medical"],
+                                  ["小売業(コンビニ・専門店など)", "社会"],
+                                  ["アパレル・ファッション", "その他"],
+                                  ["美容・コスメ", "beauty"],
+                                  ["娯楽・アミューズメント(映画館・ゲームセンターなど)", "beauty"]
+                                ] ,class:"form-control" %>
   <br><%= f.label :shop_address, "住所"%> <%= f.text_field :shop_address %>
+  <!-- 業種コードを設定する -->
   <br><%= f.label :all_day_flag, "24時間営業"%>
   <div class="coupon-check">
     <!-- coupons.coffeeに処理の記載あり-->
@@ -24,9 +34,26 @@
   </div>
 
 　<div class="coupon-time-click">
-  <br><%= f.label :open_time, "開店時刻"%> <%= f.time_select :open_time %>
-  <br><%= f.label :close_time, "閉店時刻"%> <%= f.time_select :close_time%>
+    <br><%= f.label :open_time, "開店時刻"%> <%= f.time_select :open_time %>
+    <br><%= f.label :close_time, "閉店時刻"%> <%= f.time_select :close_time%>
 　</div>
+
+  <div class="holiday">
+    <label><%= f.radio_button :holiday_condition, "true" ,{:checked => true}%> 年中無休</label>
+    <label><%= f.radio_button :holiday_condition, "false" %> 定休日あり</label>
+  </div>
+
+  <div class="holiday-condition">
+    <%= f.check_box 'holiday', {multiple: true}, 'Mon',nil %>月曜日
+    <%= f.check_box 'holiday', {multiple: true}, 'Tue',nil %>火曜日
+    <%= f.check_box 'holiday', {multiple: true}, 'Wed',nil %>水曜日
+    <%= f.check_box 'holiday', {multiple: true}, 'Thu',nil %>木曜日
+    <%= f.check_box 'holiday', {multiple: true}, 'Fri',nil %>金曜日
+    <%= f.check_box 'holiday', {multiple: true}, 'Sat',nil %>土曜日
+    <%= f.check_box 'holiday', {multiple: true}, 'Sun',nil %>日曜日
+    <%= f.check_box 'holiday', {multiple: true}, 'Nat',nil %>祝日
+  </div>
+
   <br>
   <%= f.submit("利用登録") %>
 <% end %>

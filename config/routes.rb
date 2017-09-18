@@ -1,13 +1,11 @@
 Rails.application.routes.draw do
-
-  get 'coupon_shop_lists/geocode'
-
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   #Deviseを継承したgeneral_usersとshop_managersを準備する
   devise_for :general_users, {
     path: 'general_users',
     controllers: {
-      registrations: 'general_users/registrations'
+      registrations: 'general_users/registrations',
+      sessions: 'general_users/sessions'
     }
   }
 
@@ -21,9 +19,11 @@ Rails.application.routes.draw do
 
   root 'coupons#index'
 
-  resources :coupons, only: [:index, :new, :edit, :update, :destroy, :create] do
+  resources :coupons do
     collection do
       post :confirm
+      get :getcoupons
+      #追加の場合はget XXXXを追加していく
     end
     #独自のアクションを類歌する方法
     #collection do
@@ -32,9 +32,17 @@ Rails.application.routes.draw do
     #end
   end
 
-  resources :coupon_shop_lists , only: [:index, :new, :create] do
+  # get 'coupons/getcoupons'
+
+  #resources :coupon_shop_lists , only: [:index, :new, :create] do
+  resources :coupon_shop_lists do
     collection do
       post :confirm
+      get :myshop
     end
+  end
+
+  if Rails.env.development?
+    mount LetterOpenerWeb::Engine, at: "/letter_opener"
   end
 end

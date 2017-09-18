@@ -17,6 +17,10 @@
         <%= f.password_field :password, autocomplete: "off", class: "form-control", placeholder: "パスワード" %>
       </div>
 
+      <%= f.hidden_field :status, :value => "20" %>
+      <%= f.hidden_field :manager_id, :value => '20' %>
+      <%= f.hidden_field :shop_manage_id, :value => nil %>
+
       <div class="field">
         <%= f.password_field :password_confirmation, autocomplete: "off", class: "form-control", placeholder: "パスワード（確認）" %>
       </div>

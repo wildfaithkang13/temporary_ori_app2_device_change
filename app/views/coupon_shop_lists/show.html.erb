@@ -1,0 +1,10 @@
+<h1><%= @shop_detail.shop_name %></p></h1>
+  <p>電話番号:<%= @shop_detail.telephone_number %></p>
+  <p>住所:<%= @shop_detail.shop_address %></p>
+
+<% if @shop_detail.all_day_flag%>
+  <p>営業時間:24時間営業</p>
+<% else %>
+  <p>営業時間:<%= @shop_detail.open_time %> 〜 <%= @shop_detail.close_time %></p>
+<% end %>
+  <P>定休日：<%= @shop_detail.holiday %></p>

@@ -1,33 +1,8 @@
 <p class="flash"><%= notice %><%= alert %></p>
-<!--
-<script type="text/javascript">
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-      // success callback
-      function(position) {
-        alert( "latitude: " + position.coords.latitude + "\nlongitude: " + position.coords.longitude );
-      },
-      // error callback
-      function(position) {
-        alert( "can't get position" );
-      }
-    )
-  }
-</script>
--->
 
-<style type="text/css">
- #map { height: 300px; /* 元々のデフォルト値は400pxで理想は1000px*/
- margin-left:auto;    /* 左側マージンを自動的に空ける */
- margin-right:auto;   /* 右側マージンを自動的に空ける */
- text-align:left;     /* 中身を左側表示に戻す */
- width: 80%;}
-</style>
+<div id="map-canvas">ここにマップが表示されます</div>
 
-<!-- ここでGoogle Mapを表示させる -->
-<div id="map">
-
-</div>
+<p id="text"></p>
 
 <p>Otocoupon加盟店検索</p>
 <form>
@@ -35,21 +10,11 @@
   <input type="button" value="Search" id="button">
 </form>
 
-<!--
-<%#=if @coupons.present? %>
-  <p>データなし</p>
-<%#= else %>
-  <p>データあり</p>
-<%#= end %>
--->
-<% if @coupons.present? %>
+<!-- 複数のマーカーをたてる方法https://www.tam-tam.co.jp/tipsnote/javascript/post7755.html-->
+<!-- @googlemapsをjavascriptに渡す http://ikasama.hatenablog.jp/entry/2013/09/15/121746-->
+<div id="hoge" data-hoge-id="<%= @googlemaps %>">
 <br>
 <hr>
-  <b>現在地付近のクーポン情報</b>
-  <% @coupons.each do |coupon| %>
-      <p>クーポン内容：<%= coupon.coupon_content %></p>
-      <p>クーポン利用開始時刻：<%= coupon.available_start_time %></p>
-      <p>クーポン利用終了時刻：<%= coupon.available_end_time %></p>
-      <!-- お店種別コードも表示-->
-  <% end %>
-<% end %>
+<!-- index.js.erbに設定した内容が動く -->
+<p>現在地周辺のクーポン一覧</p><br>
+<div id="coupon_shop_list_test"></div>

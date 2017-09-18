@@ -25,14 +25,19 @@
         <% if shop_manager_signed_in? || general_user_signed_in? %>
           <% if shop_manager_signed_in? %>
             <!-- 管理者その2の場合に以下を表示する -->
-            <li><%= link_to 'クーポン投稿', new_coupon_path%></li>
-            <!-- 管理者その1の場合に以下を表示する -->
-            <li><%= link_to 'クーポン投稿利用登録', new_coupon_shop_list_path %></li>
+            <% if current_user.status == '30' %>
+              <li><%= link_to 'マイショップ', myshop_coupon_shop_lists_path%></li>
+              <li><%= link_to 'クーポン投稿', new_coupon_path %></li>
+              <li><%= link_to 'マイページ', edit_shop_manager_registration_path %></li>
+            <% else %>
+              <li><%= link_to 'クーポン投稿利用登録', new_coupon_shop_list_path %></li>
+              <li><%= link_to 'マイページ', edit_shop_manager_registration_path %></li>
+            <% end %>
             <li><%= link_to 'ログアウト', destroy_shop_manager_session_path, method: :delete %></li>
           <% end %>
           <% if general_user_signed_in? %>
-            <!--<li><%= link_to "クーポン投稿利用登録", :controller => "coupon_shop_lists", :action => "new" %></li>-->
               <li><%= link_to 'お気に入りショップリスト' %></li>
+              <li><%= link_to 'マイページ', edit_general_user_registration_path %></li>
               <li><%= link_to 'ログアウト', destroy_general_user_session_path, method: :delete %></li>
           <% end %>
         <% else %>
@@ -53,7 +58,14 @@
 indexの場合はindex.html.erbに記載された内容が反映される
 newの場合はnew.html.erbの記載した内容が反映される
 -->
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<%= @gmapkey %>"></script>
+  <style type="text/css">
+   #map-canvas { height: 500px; /* 元々のデフォルト値は400pxで理想は1000px*/
+   margin-left:auto;    /* 左側マージンを自動的に空ける */
+   margin-right:auto;   /* 右側マージンを自動的に空ける */
+   text-align:left;     /* 中身を左側表示に戻す */
+   width: 80%;}
+  </style>
 
-  <!--<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<%#= @gmapkey %>"></script>-->
 </body>
 </html>

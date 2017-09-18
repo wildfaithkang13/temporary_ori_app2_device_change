@@ -1,0 +1,7 @@
+ja:
+  activerecord:
+    models:
+      shop_managemer: "管理者"
+    attributes:
+      shop_managemer:
+        email: "メールアドレス"

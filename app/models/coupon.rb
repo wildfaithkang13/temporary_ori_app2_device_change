@@ -5,4 +5,5 @@ class Coupon < ActiveRecord::Base
   validates :coupon_content, presence: true
   validates :available_start_time, presence: true
   validates :available_end_time, presence: true
+  belongs_to :coupon_shop_list
 end

@@ -1,11 +1,13 @@
 <%= form_for(@coupon, url: confirm_coupons_path) do |f| %>
   <%= f.label :shop_name, "店名"%>
-  <br><%= f.text_field :shop_name %>
+  <%= f.hidden_field :shop_name, :value => @myshop.shop_name %>
+  <br><%= f.text_field :shop_name, value: @myshop.shop_name, :disabled => true, size: "100x50"%>
+  <%= f.hidden_field :shop_address, :value => @myshop.shop_address %>
   <br><%= f.label :shop_address, "住所"%>
-  <br><%= f.text_field :shop_address %>
-  <br><%= f.label :coupon_content, "クーポン内容" %>
-  <br><%= f.text_field :coupon_content %>
-  <br><%= f.label :available_start_time, "クーポン開始時刻" %>
+  <br><%= f.text_field :shop_address, value: @myshop.shop_address, :disabled => true, size: "100x50" %>
+  <br><%= f.label :coupon_content, "クーポン内容"%>
+  <br><%= f.text_area :coupon_content, size: "100x3"%>
+  <br><%= f.label :available_start_time, "クーポン利用開始時刻" %>
   <div class='input-group date datepicker'>
     <%= f.text_field :available_start_time, class: 'form-control'%>
     <span class="input-group-addon"><i class="fa fa-calendar" aria-hidden="true"></i></span>

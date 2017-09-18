@@ -1,0 +1,15 @@
+  <div class="container">
+      <div class="row row-offcanvas row-offcanvas-right">
+          <div class="row">
+            <% coupon_lists.each do |coupon|  %>
+            <div class="col-6 col-lg-4">
+              <%= link_to coupon_path(coupon) do %>
+                <h2><strong><%= coupon.coupon_content %></strong></h2>
+              <% end %>
+              <p>クーポン利用開始時刻：<%= coupon.available_start_time.strftime('%Y年%m月%d日 %H:%M:%S') %></p>
+              <p>クーポン利用終了時刻：<%= coupon.available_end_time.strftime('%Y年%m月%d日 %H:%M:%S') %></p>
+            </div>
+            <% end %>
+          </div>
+      </div>
+    </div>

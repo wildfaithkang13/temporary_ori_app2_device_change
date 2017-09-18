@@ -4,12 +4,16 @@
   <%= f.hidden_field :telephone_number %>
   <%= f.hidden_field :shop_name %>
   <%= f.hidden_field :shop_address %>
+  <%= f.hidden_field :occupation_code %>
   <%= f.hidden_field :all_day_flag %>
   <%= f.hidden_field :open_time %>
   <%= f.hidden_field :close_time %>
+  <%= f.hidden_field :holiday , {:multiple => true} %>
   <p>電話番号:<%= @new_coupon_shop.telephone_number %></p>
   <p>店名:<%= @new_coupon_shop.shop_name %></p>
   <p>住所:<%= @new_coupon_shop.shop_address %></p>
+  <p>業種:<%= @new_coupon_shop.occupation_code %></p>
+  <p>休日状況:<%= @new_coupon_shop.holiday %></p>
   <p>24時間営業フラグ:<%= @new_coupon_shop.all_day_flag %></p>
   <% unless @new_coupon_shop.all_day_flag %>
     <p>開店時刻:<%= @new_coupon_shop.open_time %></p>
