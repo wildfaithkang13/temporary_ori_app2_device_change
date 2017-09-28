@@ -11,18 +11,24 @@
   </div>
 <% end %>
 
+<% if flash[:errorlist] %>
+  <% flash[:errorlist].each do |error| %>
+    <%= error %><br>
+  <% end %>
+<% end %>
+
   <%= f.label :telephone_number, "電話番号"%> <%= f.text_field :telephone_number %> ※ハイフン不要
-  <br><%= f.label :shop_name, "店名"%> <%= f.text_field :shop_name, value: 'aaaaa' %>
+  <br><%= f.label :shop_name, "店名"%> <%= f.text_field :shop_name %>
   <br><%= f.label :occupation_code, "職種"%>
   <%= f.select :occupation_code, [
                                   ["ホテル・旅館", "hotel"],
                                   ["フィットネス(ジム・運動場・プールなど)", "gymnasium"],
                                   ["風俗・水商売", "nightlife"],
                                   ["医療(薬局・ドラッグストア)", "medical"],
-                                  ["小売業(コンビニ・専門店など)", "社会"],
-                                  ["アパレル・ファッション", "その他"],
+                                  ["小売業(コンビニ・専門店など)", "retail"],
+                                  ["アパレル・ファッション", "fashion"],
                                   ["美容・コスメ", "beauty"],
-                                  ["娯楽・アミューズメント(映画館・ゲームセンターなど)", "beauty"]
+                                  ["娯楽・アミューズメント(映画館・ゲームセンターなど)", "amusement"]
                                 ] ,class:"form-control" %>
   <br><%= f.label :shop_address, "住所"%> <%= f.text_field :shop_address %>
   <!-- 業種コードを設定する -->

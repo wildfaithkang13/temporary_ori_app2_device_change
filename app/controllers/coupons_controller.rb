@@ -16,8 +16,10 @@ class CouponsController < ApplicationController
 
   def create
     @coupon = Coupon.new(coupons_params)
+    @associated = CouponShopList.find_by(shop_management_id: current_user.used_shop_manage_id)
     @coupon.available_end_time = @coupon.available_end_time + 3599
     @coupon.coupon_shop_lists_id = current_user.used_shop_manage_id
+    @coupon.coupon_shop_list_id = @associated.id
     if @coupon.save
       # 一覧画面へ遷移して"ブログを作成しました！"とメッセージを表示します。
       redirect_to root_path, notice: "クーポンを投稿しました！"
@@ -28,10 +30,45 @@ class CouponsController < ApplicationController
   end
 
   def edit
+    @coupon = Coupon.find(params[:id])
   end
 
   def show
     @coupon_detail = Coupon.find(params[:id])
+  end
+
+  def destroy
+    @coupon = Coupon.find(params[:id])
+    @coupon.destroy
+    redirect_to root_path, notice: "クーポンを削除しました！"
+  end
+
+  def update
+    refisterErrorList = Array.new
+    if params[:coupon][:coupon_content].blank?
+      refisterErrorList.push("クーポン内容が入力されておりません。");
+    end
+
+    if params[:coupon][:available_start_time].blank?
+      refisterErrorList.push("クーポン利用開始時刻が設定されておりません。");
+    end
+
+    if params[:coupon][:available_end_time].blank?
+      refisterErrorList.push("クーポン利用終了時刻が設定されておりません。");
+    end
+
+    if refisterErrorList.present?
+      flash[:errorlist] = refisterErrorList
+      redirect_to action: 'edit'
+      return;
+    end
+
+    @updateCoupon = Coupon.find(params[:id])
+    if @updateCoupon.update(coupons_params)
+      redirect_to root_path, notice: "クーポンを更新しました！"
+    else
+      render 'edit'
+    end
   end
 
   #クーポンを取得するための独自アクションを設定
@@ -53,9 +90,26 @@ class CouponsController < ApplicationController
     end
   end
 
-
   def confirm
+    confirmErrorList = Array.new
     @coupon = Coupon.new(coupons_params)
+    if @coupon.coupon_content.blank?
+      confirmErrorList.push('クーポン内容が未入力です。');
+    end
+
+    if @coupon.available_start_time.blank?
+      confirmErrorList.push('クーポン利用開始時刻が未入力です。');
+    end
+
+    if @coupon.available_end_time.blank?
+      confirmErrorList.push('クーポン利用終了時刻が未入力です。');
+    end
+
+    if confirmErrorList.present?
+      flash[:errorlist] = confirmErrorList
+      redirect_to action: 'new'
+      return;
+    end
   end
 
   private

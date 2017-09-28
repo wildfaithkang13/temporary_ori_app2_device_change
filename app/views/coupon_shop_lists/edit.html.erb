@@ -1,0 +1,70 @@
+<br>
+<div class="container">
+  <div class="wrapper col-md-8 col-md-offset-2 col-sm-10">
+    <%= form_for(@edit_shop), url: choose_new_or_edit do |f| %>
+       <%= f.label :店名 %>
+       <br><%= f.text_field :shop_name, value: @edit_shop.shop_name, :disabled => true %><br>
+       <%= f.label :電話番号 %>
+       <br><%= f.text_field :telephone_number, value: @edit_shop.telephone_number %><br>
+       <%= f.label :住所 %>
+       <br><%= f.text_field :shop_address, value: @edit_shop.shop_address, size: "100x50", :disabled => true %><br>
+       <br><%= f.label :occupation_code, "職種"%>
+       <%= f.select :occupation_code, [
+                                       ["ホテル・旅館", "hotel"],
+                                       ["フィットネス(ジム・運動場・プールなど)", "gymnasium"],
+                                       ["風俗・水商売", "nightlife"],
+                                       ["医療(薬局・ドラッグストア)", "medical"],
+                                       ["小売業(コンビニ・専門店など)", "retail"],
+                                       ["アパレル・ファッション", "fashion"],
+                                       ["美容・コスメ", "beauty"],
+                                       ["娯楽・アミューズメント(映画館・ゲームセンターなど)", "amusement"]
+                                     ] ,class:"form-control" %>
+      <br><%= f.label :all_day_flag, "24時間営業"%>
+       <div class="coupon-check">
+         <!-- coupons.coffeeに処理の記載あり-->
+         <label><%= f.radio_button :all_day_flag, "true" %> YES</label>
+         <label><%= f.radio_button :all_day_flag, "false" ,{:checked => true}%> NO</label>
+       </div>
+
+       <div class="coupon-time-click">
+           <br><%= f.label :open_time, "開店時刻"%> <%= f.time_select :open_time %>
+           <br><%= f.label :close_time, "閉店時刻"%> <%= f.time_select :close_time%>
+       　</div>
+
+         <div class="holiday">
+           <label><%= f.radio_button :holiday_condition, "true" ,{:checked => true}%> 年中無休</label>
+           <label><%= f.radio_button :holiday_condition, "false" %> 定休日あり</label>
+         </div>
+
+         <div class="holiday-condition">
+           <%= f.check_box 'holiday', {multiple: true}, 'Mon',nil %>月曜日
+           <%= f.check_box 'holiday', {multiple: true}, 'Tue',nil %>火曜日
+           <%= f.check_box 'holiday', {multiple: true}, 'Wed',nil %>水曜日
+           <%= f.check_box 'holiday', {multiple: true}, 'Thu',nil %>木曜日
+           <%= f.check_box 'holiday', {multiple: true}, 'Fri',nil %>金曜日
+           <%= f.check_box 'holiday', {multiple: true}, 'Sat',nil %>土曜日
+           <%= f.check_box 'holiday', {multiple: true}, 'Sun',nil %>日曜日
+           <%= f.check_box 'holiday', {multiple: true}, 'Nat',nil %>祝日
+         </div>
+         <br>
+         <%= f.submit("更新") %>
+    <% end %>
+  </div>
+</div>
+
+
+<!-- <CouponShopList
+id: 33,
+telephone_number: "11111111",
+shop_name: "ヒカリエ",
+shop_address: "東京都渋谷区渋谷2-21-1",
+shop_latitude: 35.6590249, shop_longtitude: 139.703473,
+all_day_flag: false,
+open_time: "2017-09-24 05:28:00",
+close_time: "2017-09-24 05:28:00",
+created_at: "2017-09-24 05:29:26",
+updated_at: "2017-09-24 05:29:26",
+shop_management_id: "b7998f3c-6f75-49cc-bad3-9a042f421657",
+occupation_code: "retail",
+holiday: "[\"\"]",
+holiday_condition: nil> -->

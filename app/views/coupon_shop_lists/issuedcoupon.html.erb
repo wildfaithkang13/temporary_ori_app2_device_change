@@ -1,0 +1,27 @@
+<h1>発行済みクーポン一覧</h1>
+<div class="container">
+  <div class="wrapper col-md-8 col-md-offset-2 col-sm-10">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>No.</th>
+          <th>クーポン見出し:</th>
+          <th>クーポン利用開始時刻:</th>
+          <th>クーポン利用終了時刻:</th>
+        </tr>
+        <tbody>
+          <% @isuuedCoupons.each_with_index do |issued, index| %>
+            <tr>
+              <th scope="row"><%= index + 1 %></th>
+              <td><%= issued.coupon_content %></td>
+              <td><%= issued.available_start_time.strftime("%H時%M分") %></td>
+              <td><%= issued.available_end_time.strftime("%H時%M分") %></td>
+              <td><%= link_to "編集", edit_coupon_path(issued) %></td>
+              <td><%= link_to "削除", coupon_path(issued), method: :delete, data: { confirm: '本当に削除していいですか？'} %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </thead>
+    </table>
+  </div>
+</div>

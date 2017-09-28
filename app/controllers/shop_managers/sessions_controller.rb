@@ -11,16 +11,45 @@ class ShopManagers::SessionsController < Devise::SessionsController
      #アトリビュート名を設定すること
      #self => validを呼び出したユーザを意味する
      #テーブルに縛られないモデルを作成することができる
+     errorList = Array.new
 
      #ログイン画面で入力した管理者IDをアトリビュートに入れる
-     current_user.manager_id = params[:shop_manager][:manager_id]
-     if current_user.manager_id.blank?
-       reset_session
-       redirect_to new_shop_manager_session_path, alert: "管理者IDが入力されておりません。"
-     elsif current_user.manager_id != "test"
-       reset_session
-       redirect_to new_shop_manager_session_path, alert: "管理者IDが間違っています。"
+     login_email = params[:shop_manager][:email]
+     password = params[:shop_manager][:password]
+     manager_id = params[:shop_manager][:manager_id]
+     shop_manage_id = params[:shop_manager][:shop_manage_id]
+
+     if login_email.blank?
+       errorList.push("メールアドレスが入力されておりません。");
+     end
+
+     if password.blank?
+       errorList.push("パスワードが入力されておりません。");
+     end
+
+     #会員登録していないユーザーのログインまたはログイン情報が見つからない場合
+     if current_user.blank?
+       flash[:errorlist] = errorList
+       redirect_to action: 'new'
+       return;
      else
+
+       current_user.manager_id = params[:shop_manager][:manager_id]
+       if current_user.manager_id.blank?
+        #  reset_session
+        #  redirect_to new_shop_manager_session_path, alert: "管理者IDが入力されておりません。"
+        #  return;
+        reset_session
+        flash[:nomanagementid] = "管理者IDが入力されておりません。"
+        redirect_to action: 'new'
+        return;
+       end
+
+       if current_user.manager_id != "test"
+         reset_session
+         redirect_to new_shop_manager_session_path, alert: "管理者IDが間違っています。"
+         return;
+       end
        #入力したショップ管理をキーにクーポンショップリストテーブルを検索する
        current_user.shop_manage_id = CouponShopList.find_by_shop_management_id(params[:shop_manager][:shop_manage_id])
        unless current_user.shop_manage_id.blank?
@@ -38,6 +67,7 @@ class ShopManagers::SessionsController < Devise::SessionsController
      end
    end
 
+
   # DELETE /resource/sign_out
   # def destroy
   #   super
@@ -54,6 +84,8 @@ class ShopManagers::SessionsController < Devise::SessionsController
   #参考サイト：http://qiita.com/yang1005/items/8820e381233868e75bef
   #SessionsControllerをカスタマイズした場合は、カスタマイズしたコントローラ中に追加します
   def after_sign_out_path_for(resource)
+    CouponShopList.find(params[:myshop]).delete if params[:myshop]
+    
     new_session_path(resource_name)
   end
 

@@ -1,5 +1,4 @@
 <h3>以下の内容で、投稿してよろしいですか？</h3>
-
 <%= form_for(@coupon) do |f| %>
   <%= f.hidden_field :shop_name %>
   <%= f.hidden_field :shop_address %>
@@ -9,8 +8,6 @@
   <p>店名:<%= @coupon.shop_name %></p>
   <p>住所:<%= @coupon.shop_address %></p>
   <p>クーポン内容:<%= @coupon.coupon_content %></p>
-  <!--<p>利用開始時刻:<%#= @coupon.available_start_time.strftime("%Y年%m月%d日 %H時%M分") %></p>
-  <p>利用終了時刻:<%#= @coupon.available_end_time.strftime("%Y年%m月%d日 %H時%M分") %></p>-->
   <p>利用開始時刻:<%= @coupon.available_start_time.strftime("%Y年%m月%d日") %></p>
   <p>利用終了時刻:<%= @coupon.available_end_time.strftime("%Y年%m月%d日") %></p>
   <%= f.submit "登録する" %>

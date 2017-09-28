@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170910050018) do
+ActiveRecord::Schema.define(version: 20170924075109) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,6 +44,7 @@ ActiveRecord::Schema.define(version: 20170910050018) do
     t.datetime "available_start_time"
     t.datetime "available_end_time"
     t.string   "coupon_shop_lists_id"
+    t.integer  "coupon_shop_list_id"
   end
 
   create_table "shop_managers", force: :cascade do |t|

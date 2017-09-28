@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     controllers: {
       registrations: 'shop_managers/registrations',
       sessions: 'shop_managers/sessions'
+      #get '/users/sign_out' => 'shop_manager/sessions#destroy'
     }
   }
 
@@ -39,6 +40,7 @@ Rails.application.routes.draw do
     collection do
       post :confirm
       get :myshop
+      get :issuedcoupon
     end
   end
 

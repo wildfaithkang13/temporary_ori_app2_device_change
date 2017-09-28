@@ -18,8 +18,9 @@
 //= require moment
 //= require bootstrap-datetimepicker
 
-$(function(){
-  $('.datepicker').datetimepicker({
+
+$(document).on('ready page:load', function() {
+    return $('.datepicker').datetimepicker({
     format: 'YYYY-MM-DD HH:00'
   });
 });

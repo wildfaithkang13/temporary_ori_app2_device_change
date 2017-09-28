@@ -1,0 +1,33 @@
+<h1>クーポン編集ページ</h1>
+<div class="container">
+  <div class="wrapper col-md-8 col-md-offset-2 col-sm-10">
+    <% if flash[:errorlist] %>
+      <% flash[:errorlist].each do |error| %>
+        <%= error %><br>
+      <% end %>
+    <% end %>
+    <%= form_for(@coupon, url: choose_new_or_edit) do |f| %>
+      <%= f.hidden_field :id, :value => @coupon.id %>
+      <%= f.label :shop_name, "店名"%>
+      <%= f.hidden_field :shop_name, :value => @coupon.shop_name %>
+      <br><%= f.text_field :shop_name, value: @coupon.shop_name, :disabled => true, size: "100x50"%>
+      <%= f.hidden_field :shop_address, :value => @coupon.shop_address %>
+      <br><%= f.label :shop_address, "住所"%>
+      <br><%= f.text_field :shop_address, value: @coupon.shop_address, :disabled => true, size: "100x50" %>
+      <br><%= f.label :coupon_content, "クーポン内容"%>
+      <br><%= f.text_area :coupon_content, size: "100x3"%>
+      <br><%= f.label :available_start_time, "クーポン利用開始時刻" %>
+      <div class='input-group date datepicker'>
+        <%= f.text_field :available_start_time, class: 'form-control'%>
+        <span class="input-group-addon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+      </div>
+      <br>
+      <%= f.label :available_end_time, "クーポン利用終了時刻" %>
+      <div class='input-group date datepicker'>
+        <%= f.text_field :available_end_time, class: 'form-control'%>
+        <span class="input-group-addon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+      </div><br>
+      <%= f.submit("更新") %>
+    <% end %>
+   </div>
+</div>

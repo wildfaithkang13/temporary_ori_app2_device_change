@@ -18,7 +18,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <%= link_to "Otocoupon", root_path, class: "navbar-brand" %>
+        <%= link_to "Otocoupon", root_path, class: "navbar-brand", method: 'get' %>
       </div>
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav navbar-right">
@@ -26,8 +26,9 @@
           <% if shop_manager_signed_in? %>
             <!-- 管理者その2の場合に以下を表示する -->
             <% if current_user.status == '30' %>
+              <li><%= link_to '発行済みクーポン一覧', issuedcoupon_coupon_shop_lists_path %></li>
               <li><%= link_to 'マイショップ', myshop_coupon_shop_lists_path%></li>
-              <li><%= link_to 'クーポン投稿', new_coupon_path %></li>
+              <li><%= link_to 'クーポン投稿', new_coupon_path, method: 'get' %></li>
               <li><%= link_to 'マイページ', edit_shop_manager_registration_path %></li>
             <% else %>
               <li><%= link_to 'クーポン投稿利用登録', new_coupon_shop_list_path %></li>

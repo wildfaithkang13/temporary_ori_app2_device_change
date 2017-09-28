@@ -1,6 +1,17 @@
 <br>
 <h1>マイショップ</h1>
 店舗名：<%= @myshop.shop_name %><br>
+業態：<%= @myshop.occupation_code %><br>
 住所：<%= @myshop.shop_address %><br>
-電話番号：<%= @myshop.shop_address %><br>
-<!-- 編集はcoupon_shop_listの編集画面へ飛ぶ　-->
+電話番号：<%= @myshop.telephone_number %><br>
+<% if @myshop.all_day_flag %>
+  営業時間：24時間営業<br>
+<% else %>
+  営業時間：<%= @myshop.open_time.strftime("%H時%M分") %> 〜 <%= @myshop.close_time.strftime("%H時%M分") %><br>
+<% end %>
+  定休日：<%= @myshop.holiday %><br>
+<%= link_to "編集", edit_coupon_shop_list_path(@myshop) %>
+<%= link_to "削除", coupon_shop_list_path(@myshop), method: :delete, data: { confirm: '本当に削除していいですか？'} %>
+<!--
+<#%= link_to "削除", destroy_shop_manager_session_path(myshop: @myshop), method: :delete, data: { confirm: '本当に削除していいですか？'} %>
+-->

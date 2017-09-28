@@ -16,8 +16,8 @@
   <p>休日状況:<%= @new_coupon_shop.holiday %></p>
   <p>24時間営業フラグ:<%= @new_coupon_shop.all_day_flag %></p>
   <% unless @new_coupon_shop.all_day_flag %>
-    <p>開店時刻:<%= @new_coupon_shop.open_time %></p>
-    <p>閉店時刻:<%= @new_coupon_shop.close_time %></p>
+    <p>開店時刻:<%= @new_coupon_shop.open_time.strftime("%H時%M分") %></p>
+    <p>閉店時刻:<%= @new_coupon_shop.close_time.strftime("%H時%M分") %></p>
   <% end %>
   <%= f.submit "登録する" %>
 <% end %>
