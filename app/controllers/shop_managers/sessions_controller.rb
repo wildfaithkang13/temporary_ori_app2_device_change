@@ -51,7 +51,7 @@ class ShopManagers::SessionsController < Devise::SessionsController
          return;
        end
        #入力したショップ管理をキーにクーポンショップリストテーブルを検索する
-       current_user.shop_manage_id = CouponShopList.find_by_shop_management_id(params[:shop_manager][:shop_manage_id])
+       current_user.shop_manage_id = CouponShopList.find_by(shop_management_id: params[:shop_manager][:shop_manage_id])
        unless current_user.shop_manage_id.blank?
          user = ShopManager.find(current_user.id)
          user.status = '30'
@@ -85,7 +85,7 @@ class ShopManagers::SessionsController < Devise::SessionsController
   #SessionsControllerをカスタマイズした場合は、カスタマイズしたコントローラ中に追加します
   def after_sign_out_path_for(resource)
     CouponShopList.find(params[:myshop]).delete if params[:myshop]
-    
+
     new_session_path(resource_name)
   end
 
