@@ -1,7 +1,8 @@
 <br>
 <div class="container">
   <div class="wrapper col-md-8 col-md-offset-2 col-sm-10">
-    <%= form_for(@edit_shop, url: choose_new_or_edit) do |f| %>
+    <!-- <%#= form_for(@edit_shop, url: choose_new_or_edit) do |f| %> -->
+    <%= form_for(@edit_shop) do |f| %>
        <%= f.label :店名 %>
        <br><%= f.text_field :shop_name, value: @edit_shop.shop_name, :disabled => true %><br>
        <%= f.label :電話番号 %>
@@ -51,20 +52,3 @@
     <% end %>
   </div>
 </div>
-
-
-<!-- <CouponShopList
-id: 33,
-telephone_number: "11111111",
-shop_name: "ヒカリエ",
-shop_address: "東京都渋谷区渋谷2-21-1",
-shop_latitude: 35.6590249, shop_longtitude: 139.703473,
-all_day_flag: false,
-open_time: "2017-09-24 05:28:00",
-close_time: "2017-09-24 05:28:00",
-created_at: "2017-09-24 05:29:26",
-updated_at: "2017-09-24 05:29:26",
-shop_management_id: "b7998f3c-6f75-49cc-bad3-9a042f421657",
-occupation_code: "retail",
-holiday: "[\"\"]",
-holiday_condition: nil> -->
