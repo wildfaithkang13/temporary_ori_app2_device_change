@@ -57,7 +57,9 @@ class CouponShopListsController < ApplicationController
     end
 
     if @new_coupon_shop.save
-      redirect_to root_path, notice: "利用登録完了！"
+      # redirect_to root_path, error: @new_coupon_shop.shop_management_id
+      flash[:notice] = "お客様のショップ管理IDは「" + @new_coupon_shop.shop_management_id + "」です。お忘れにならないようにご注意ください。"
+      redirect_to root_path
     else
       render 'new'
     end
@@ -74,7 +76,7 @@ class CouponShopListsController < ApplicationController
   def update
     @update_shop = CouponShopList.find(params[:id])
     if @update_shop.update(coupon_shop_list_params)
-      redirect_to root_path, notice: "マイショップを更新しました！"
+      redirect_to root_path, alert: "マイショップを更新しました！"
     else
       render 'edit'
     end

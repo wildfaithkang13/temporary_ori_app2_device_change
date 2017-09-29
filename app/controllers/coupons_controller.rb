@@ -22,7 +22,7 @@ class CouponsController < ApplicationController
     @coupon.coupon_shop_list_id = @associated.id
     if @coupon.save
       # 一覧画面へ遷移して"ブログを作成しました！"とメッセージを表示します。
-      redirect_to root_path, notice: "クーポンを投稿しました！"
+      redirect_to root_path, alert: "クーポンを投稿しました！"
     else
       # 入力フォームを再描画します。
       render 'new'

@@ -11,6 +11,14 @@
   <input type="button" value="Search" id="button">
 </form>
 
+<% if flash[:alert].present? %>
+  <%= flash[:alert]%>
+<% end %>
+
+<% if flash[:notice].present? %>
+  <%= flash[:notice]%>
+<% end %>
+
 <!-- 複数のマーカーをたてる方法https://www.tam-tam.co.jp/tipsnote/javascript/post7755.html-->
 <!-- @googlemapsをjavascriptに渡す http://ikasama.hatenablog.jp/entry/2013/09/15/121746-->
 <div id="hoge" data-hoge-id="<%= @googlemaps %>">
