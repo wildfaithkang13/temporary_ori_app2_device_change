@@ -15,6 +15,7 @@ class CouponsController < ApplicationController
   end
 
   def create
+    @targetSendEmail = current_user.email
     @coupon = Coupon.new(coupons_params)
     @associated = CouponShopList.find_by(shop_management_id: current_user.used_shop_manage_id)
     @coupon.available_end_time = @coupon.available_end_time + 3599
@@ -23,6 +24,9 @@ class CouponsController < ApplicationController
     if @coupon.save
       # 一覧画面へ遷移して"ブログを作成しました！"とメッセージを表示します。
       redirect_to root_path, alert: "クーポンを投稿しました！"
+
+      #TODO クーポン発行元の半径3km以内にいるユーザに対してメールを配信したい。
+      NoticeMailer.sendmail_coupon(@coupon, @targetSendEmail).deliver
     else
       # 入力フォームを再描画します。
       render 'new'
