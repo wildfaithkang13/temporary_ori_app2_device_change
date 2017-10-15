@@ -24,6 +24,7 @@ Rails.application.routes.draw do
     collection do
       post :confirm
       get :getcoupons
+      get :agreement
       #追加の場合はget XXXXを追加していく
     end
     #独自のアクションを類歌する方法
@@ -32,8 +33,6 @@ Rails.application.routes.draw do
       #get 'login_check'
     #end
   end
-
-  # get 'coupons/getcoupons'
 
   #resources :coupon_shop_lists , only: [:index, :new, :create] do
   resources :coupon_shop_lists do

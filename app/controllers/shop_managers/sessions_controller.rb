@@ -89,6 +89,10 @@ class ShopManagers::SessionsController < Devise::SessionsController
     new_session_path(resource_name)
   end
 
+  #def after_sign_up_path_for(resource)
+  # サインアップ後のリダイレクト先を変更
+  #end
+
   #ログイン成功後に遷移するページやページ遷移前の処理を記述できる
   def after_sign_in_path_for(resource)
     root_path

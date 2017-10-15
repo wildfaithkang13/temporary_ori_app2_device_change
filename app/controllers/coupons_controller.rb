@@ -116,6 +116,9 @@ class CouponsController < ApplicationController
     end
   end
 
+  def agreement
+  end
+
   private
   def coupons_params
     params.require(:coupon).permit(:shop_name, :shop_address, :coupon_content, :available_start_time, :available_end_time)
