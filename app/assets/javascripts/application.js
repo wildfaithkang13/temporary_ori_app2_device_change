@@ -24,3 +24,23 @@ $(document).on('ready page:load', function() {
     format: 'YYYY-MM-DD HH:00'
   });
 });
+
+$(function() {
+
+  //利用規約への同意エラー表示スタイル調整
+  error_block = $(".agreement  .help-inline");
+  if(error_block){
+      $(".agreement").prepend(error_block);
+  	error_block.css({"color":"#CD5C5C", "font-size":"small"});
+  }
+ });
+
+ $(function() {
+
+   //利用規約への同意エラー表示スタイル調整
+   error_block = $(".agreement  .help-inline");
+   if(error_block){
+       $(".agreement").prepend(error_block);
+   	error_block.css({"color":"#CD5C5C", "font-size":"small"});
+   }
+  });
