@@ -1,5 +1,6 @@
 class CouponsController < ApplicationController
-  before_action :authenticate_user!
+  #サイトの説明のみはログインなしで参照できる
+  before_action :authenticate_user!, except: [:explanation_coupons]
   def index
     @gmapkey = ENV["GOOGLE_MAP_API"]
     @coupons = Coupon.all
@@ -114,9 +115,6 @@ class CouponsController < ApplicationController
       redirect_to action: 'new'
       return;
     end
-  end
-
-  def agreement
   end
 
   private

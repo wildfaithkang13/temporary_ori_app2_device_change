@@ -17,7 +17,7 @@ class GeneralUsers::RegistrationsController < Devise::RegistrationsController
     super
   end
 
-  def agreements
+  def agreement
     binding.pry
   end
 

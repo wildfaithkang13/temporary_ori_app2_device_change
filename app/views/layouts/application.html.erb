@@ -25,6 +25,7 @@
         <% if shop_manager_signed_in? || general_user_signed_in? %>
           <% if shop_manager_signed_in? %>
             <!-- 管理者その2の場合に以下を表示する -->
+            <!-- TODO link_to_unless_currentに変更する -->
             <% if current_user.status == '30' %>
               <li><%= link_to '発行済みクーポン一覧', issuedcoupon_coupon_shop_lists_path %></li>
               <li><%= link_to 'マイショップ', myshop_coupon_shop_lists_path%></li>
@@ -43,8 +44,8 @@
           <% end %>
         <% else %>
           <li><%= link_to 'ログイン', new_session_path(resource_name) %></li>
-          <!-- <li><%#= link_to 'サインアップ', new_registration_path(resource_name) %></li> -->
           <li><%= link_to 'サインアップ', new_registration_path(resource_name) %></li>
+          <li><%= link_to 'FAQ', question_coupons_path %></li>
         <% end %>
         </ul>
       </div>
