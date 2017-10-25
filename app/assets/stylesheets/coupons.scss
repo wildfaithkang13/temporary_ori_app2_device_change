@@ -26,3 +26,19 @@ header li {
 .holiday-condition {
   display: block;
 }
+
+footer {
+  width: 100%;
+  background-color:#330099;
+  padding: 20px 0 10px 0;
+  color: white;
+  margin: auto;
+  font-size: 12px;
+  position: absolute;
+  bottom: 0;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
