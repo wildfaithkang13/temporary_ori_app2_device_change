@@ -9,6 +9,14 @@
 }
 
 //メニューを横並びにする
+
+header {
+  width: 100%;
+  background-color: red;
+  height: 54px;
+}
+
+
 header ul {
   margin: 0 auto;
   list-style: none;

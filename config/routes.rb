@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   }
 
   devise_scope :general_users do
-    get 'general_users/registrations', :action => 'agreement', :controller => 'general_users/registrations', :as => 'general_users_agreement'
+    get 'general_users/registrations/agreement', :action => 'agreement', :controller => 'general_users/registrations', :as => 'general_users_agreement'
   end
 
   #利用規約同意画面の参考ページ

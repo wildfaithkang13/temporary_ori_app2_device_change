@@ -18,7 +18,6 @@ class GeneralUsers::RegistrationsController < Devise::RegistrationsController
   end
 
   def agreement
-    binding.pry
   end
 
 end
