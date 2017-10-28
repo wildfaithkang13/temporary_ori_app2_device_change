@@ -9,8 +9,10 @@ Rails.application.routes.draw do
     }
   }
 
-  devise_scope :general_users do
-    get 'general_users/registrations/agreement', :action => 'agreement', :controller => 'general_users/registrations', :as => 'general_users_agreement'
+#スコープ名は単数系
+#devise_scopeとはデバイスの拡張機能で単数系で設定すること。
+  devise_scope :general_user do
+    get 'general_users/registrations/agreement' => 'general_users/registrations#agreement'
   end
 
   #利用規約同意画面の参考ページ
@@ -24,6 +26,10 @@ Rails.application.routes.draw do
     }
   }
 
+  devise_scope :shop_manager do
+    get 'shop_managers/registrations/agreement' => 'shop_managers/registrations#agreement'
+  end
+
   root 'coupons#index'
 
   resources :coupons do
@@ -31,9 +37,10 @@ Rails.application.routes.draw do
       post :confirm
       get :getcoupons
       get :question
+      get :recruit
       #追加の場合はget XXXXを追加していく
     end
-    #独自のアクションを類歌する方法
+    #独自のアクションを追加する方法
     #collection do
       #get 'manager_login'
       #get 'login_check'

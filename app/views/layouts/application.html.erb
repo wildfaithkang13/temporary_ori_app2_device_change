@@ -24,20 +24,17 @@
         <ul class="nav navbar-nav navbar-right">
         <% if shop_manager_signed_in? || general_user_signed_in? %>
           <% if shop_manager_signed_in? %>
-            <!-- 管理者その2の場合に以下を表示する -->
             <!-- TODO link_to_unless_currentに変更する -->
             <% if current_user.status == '30' %>
               <li><%= link_to '発行済みクーポン一覧', issuedcoupon_coupon_shop_lists_path %></li>
               <li><%= link_to 'マイショップ', myshop_coupon_shop_lists_path%></li>
               <li><%= link_to 'クーポン投稿', new_coupon_path, method: 'get' %></li>
-              <li><%#= link_to 'マイページ', edit_shop_manager_registration_path %></li>
             <% else %>
               <li><%= link_to 'クーポン投稿利用登録', new_coupon_shop_list_path %></li>
               <li><%= link_to 'マイページ', edit_shop_manager_registration_path %></li>
             <% end %>
             <li><%= link_to 'マイページ', edit_shop_manager_registration_path %></li>
             <li><%= link_to 'ログアウト', destroy_shop_manager_session_path, method: :delete %></li>
-            <li><%= link_to 'FAQ', question_coupons_path %></li>
           <% end %>
           <% if general_user_signed_in? %>
               <li><%= link_to 'お気に入りショップリスト' %></li>
@@ -46,7 +43,6 @@
               <li><%= link_to 'FAQ', question_coupons_path %></li>
           <% end %>
         <% else %>
-          <li><%#= link_to 'よくある質問', question_coupons_path %></li>
           <% if url_for(only_path: false).include?("general_users") %>
             <li><%= link_to 'ログイン', root_url(only_path: false) + 'general_users/sign_in' %></li>
             <li><%= link_to 'サインアップ', root_url(only_path: false) + 'general_users/sign_up' %></li>
@@ -81,10 +77,11 @@ newの場合はnew.html.erbの記載した内容が反映される
   <footer>
   <!-- <p>運営会社DIVE INTO CODE株式会社</p>
   <p>© 2015-2016 Copyright DIVE INTO CODE Corp.</p> -->
-  <%= link_to 'よくある質問', question_coupons_path %>
-  <%= link_to '採用情報', question_coupons_path %>
-  <%= link_to 'プレスリリース', question_coupons_path %>
+  <div align= "right" >
+    <%= link_to 'よくある質問', question_coupons_path %>
+    <%= link_to '採用情報', recruit_coupons_path %>
+    <%= link_to 'プレスリリース'%>
   </footer>
-
+</div>
 </body>
 </html>

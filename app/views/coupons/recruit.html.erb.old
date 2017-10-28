@@ -1,0 +1,50 @@
+<body>
+<!--<div class="container-fluid fluid2">-->
+        <!--carouselとはBootstrapで用意されているスライドショーのこと-->
+				<!-- data-intervalはミリ秒単位で設定する-->
+	    <div class="carousel slide" data-ride="carousel" data-interval="10000">
+        <div class="carousel-inner">
+          <div class="item active">
+							<img class="img-responsive img-thumbnail" src="/assets/meeting.jpg">
+          </div>
+          <!-- 2つ目に表示されるもの-->
+					<!--
+          <div class="item">
+            <div class="container">
+              <div class="post-box col-lg-4 col-md-4 col-sm-4">-->
+                <!--<img class="img-responsive img-thumbnail" src="http://tiaurus.info/wp-content/uploads/2012/08/yarkoe-i-sochnoe-gipperrealistichnoe-iskusstvo-dennis-wojtkiewicz-3.jpg?76b437">-->
+								<!--<img class="img-responsive img-thumbnail" src="/assets/meeting.jpg">
+							</div>
+            </div>
+    			</div>
+					-->
+        </div>
+			</div>
+<!--</div>-->
+<!--
+採用ページの参考になるページ
+http://www.tau-magazine.com/blog/archives/category/web/recruit/page/2
+-->
+
+<h1>About Achieve</h1>
+<p>
+   Achieveは、受講生のために作成された、教材用アプリです。<br>
+   Achieveを作り終えることで、SecondTeamに参加するための力を身につけることができます。
+</p>
+<p>
+   Acheiveを一言で表すと、タスク管理アプリです。<br>
+   チームメンバーが、今どのようなタスクを行っているかリアルタイムで把握することができます。
+</p>
+<p>
+   Acheiveを一言で表すと、タスク管理アプリです。<br>
+   チームメンバーが、今どのようなタスクを行っているかリアルタイムで把握することができます。
+</p>
+<p>
+   Acheiveを一言で表すと、タスク管理アプリです。<br>
+   チームメンバーが、今どのようなタスクを行っているかリアルタイムで把握することができます。
+</p>
+<p>
+   Acheiveを一言で表すと、タスク管理アプリです。<br>
+   チームメンバーが、今どのようなタスクを行っているかリアルタイムで把握することができます。
+</p>
+</body>

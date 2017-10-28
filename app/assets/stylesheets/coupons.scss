@@ -2,6 +2,21 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+
+//ヘッダーの色を設定する
+.container-fluid {
+background-image: linear-gradient(to top left, #101F1C, #143F38, #2B645B, #5D9F95, #1F514E);
+}
+
+//タイトル文字のデザインを設定する
+.navbar-inverse .navbar-brand {
+    color: red;
+}
+
+//ヘッダー右側のメニュー文字のデザイン
+.navbar-inverse .navbar-nav>li>a {
+    color: red;
+}
 //ログインした時に表示するメッセージの設定
 .flash {
   color: white;
@@ -9,14 +24,6 @@
 }
 
 //メニューを横並びにする
-
-header {
-  width: 100%;
-  background-color: red;
-  height: 54px;
-}
-
-
 header ul {
   margin: 0 auto;
   list-style: none;
@@ -37,7 +44,7 @@ header li {
 
 footer {
   width: 100%;
-  background-color:#330099;
+  background-image: linear-gradient(to top left, #101F1C, #143F38, #2B645B, #5D9F95, #1F514E);
   padding: 20px 0 10px 0;
   color: white;
   margin: auto;
@@ -46,7 +53,25 @@ footer {
   bottom: 0;
 }
 
+footer a{
+  color: red;
+  text-decoration: none;
+  text-align: right;
+}
+body {
+  /* bodyで上下に160pxを余白を取る */
+  padding:10px 0 30px 0;
+}
+
 html {
   position: relative;
   min-height: 100%;
+}
+
+// .item img {
+// width:100%;
+// }
+
+.fluid2 {
+padding:0;
 }

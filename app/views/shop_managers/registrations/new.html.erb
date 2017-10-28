@@ -20,6 +20,14 @@
       <div class="field">
         <%= f.password_field :password, autocomplete: "off", class: "form-control", placeholder: "パスワード" %>
       </div>
+      <div class="agreement">
+        <label class="checkbox">
+          <%= f.check_box :agreement, :as => :boolean, checked:false %>
+          <%= f.check_box :agreement, :as => :boolean, checked:false %>
+          <%= link_to '利用規約', root_url(only_path: false) + 'shop_managers/registrations/agreement' %>
+        </label>
+        <small class="help-block">※利用規約に同意できない場合は登録をご遠慮ください。</small>
+      </div>
 
       <%= f.hidden_field :status, :value => "20" %>
       <%= f.hidden_field :manager_id, :value => '20' %>

@@ -1,6 +1,8 @@
 class CouponsController < ApplicationController
-  #サイトの説明のみはログインなしで参照できる
-  before_action :authenticate_user!, except: [:question]
+  #特定のアクションだけ認証を外す方法
+  #https://doruby.jp/users/maya/entries/_Rails_devise_
+
+  before_action :authenticate_user!, except: [:question, :recruit]
   skip_filter :authenticate, except: [:new, :index]
   def index
     @gmapkey = ENV["GOOGLE_MAP_API"]
@@ -119,6 +121,9 @@ class CouponsController < ApplicationController
   end
 
   def question
+  end
+
+  def recruit
   end
 
   private

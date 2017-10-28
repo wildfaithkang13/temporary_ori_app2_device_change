@@ -1,3 +1,19 @@
 // Place all the styles related to the general_user_registrations controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+//同意画面のデザイン
+.box12{
+    //囲み線内の文字の位置。 (横,縦)
+    padding: 0.1em 1em;
+    //囲み線の余白
+    margin: 1em 0;
+    color: #5989cf;
+    background: #c6e4ff;
+    border-bottom: solid 6px #aac5de;
+    border-radius: 9px;
+}
+.box12 p {
+    margin: 0;
+    padding: 0;
+}

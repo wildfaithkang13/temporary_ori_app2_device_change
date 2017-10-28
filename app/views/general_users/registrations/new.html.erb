@@ -23,16 +23,11 @@
       <div class="agreement">
         <label class="checkbox">
           <%= f.check_box :agreement, :as => :boolean, checked:false %>
-          <% if url_for(only_path: false).include?("general_users") %>
-          <!--<%#= link_to "利用規約", general_users_agreement_path, { target:"blank" } %>に同意する-->
-          <li><%= link_to '利用規約', root_url(only_path: false) + 'general_users/sign_in' %></li>
-          <% else %>
-
-          <% end %>
+          <%= f.check_box :agreement, :as => :boolean, checked:false %>
+          <%= link_to '利用規約', root_url(only_path: false) + 'general_users/registrations/agreement' %>
         </label>
         <small class="help-block">※利用規約に同意できない場合は登録をご遠慮ください。</small>
       </div>
-
 
       <!-- status = 10と定義しておく。hidden_fieldを設定した場合、
       モデルにはattr_accessor :statusを記載しないこと。記載するとnilで上書きされてしまう
@@ -41,7 +36,7 @@
 
       <div class="field">
         <%= f.password_field :password_confirmation, autocomplete: "off", class: "form-control", placeholder: "パスワード（確認）" %>
-      </div>
+      </div><br>
       <div class="actions">
         <%= f.submit "サインアップ", class: "btn btn-primary btn-block" %>
       </div>
