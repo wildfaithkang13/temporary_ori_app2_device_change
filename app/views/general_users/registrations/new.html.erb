@@ -90,6 +90,37 @@
     							</div>
     						</div>
 
+                <!-- 国籍 -->
+    						<div class="form-group">
+    							<label for="username" class="cols-sm-2 control-label">国籍</label>
+                  ※It is arranged country names in alphabetical order
+    							<div class="cols-sm-10">
+    								<div class="input-group">
+
+    									<span class="input-group-addon"><i class="fa fa-globe" aria-hidden="true"></i></span>
+                      <%= f.select :email, [
+                                                ["中华人民共和国（中国）", "CHN"],
+                                                ["Reino de España", "ESP"],
+                                                ["République française", "FRA"],
+                                                ["The United Kingdom of Great Britain and Northern Ireland", "GBR"],
+                                                ["中華人民共和國香港特別行政區（香港）", "HKG"],
+                                                ["Repubblica Italiana", "ITA"],
+                                                ["日本国", "JPN"],
+                                                ["대한민국", "KOR"],
+                                                ["Монгол Улс", "MNG"],
+                                                ["مليسيا / Malaysia / 馬來西亞", "MYS"],
+                                                ["சிங்கப்பூர் குடியரசு / Republik Singapura / 新加坡", "SGP"],
+                                                ["Российская Федерация", "RUS"],
+                                                ["中華民國（臺灣）", "TWN"],
+                                                ["ราชอาณาจักรไทย", "THA"],
+                                                ["The United States of America", "USA"],
+                                                ["Cộng Hoà Xã Hội Chủ Nghĩa Việt Nam", "VNM"]
+                                            ] ,class:"form-control", :size=>"60x10"  %>
+                      </div>
+    								</div>
+    							</div>
+    						</div>
+
                 <div class="input-group">
                     <%= f.check_box :agreement, :as => :boolean, checked:false %>
                     &nbsp;

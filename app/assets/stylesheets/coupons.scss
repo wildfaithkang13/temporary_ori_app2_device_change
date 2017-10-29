@@ -77,3 +77,25 @@ fieldset{
     border: solid 1px #FF773E;
     border-radius:10px 10px 0px 0px;
   }
+
+  .carousel .item {
+  height: 100%;
+}
+
+  @media (min-width: 320px) {
+    .carousel,
+    .carousel .item,
+    .carousel .item-mask,
+    .carousel-inner .item .item-mask img {
+      height:700px;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .carousel,
+    .carousel .item,
+    .carousel .item-mask,
+    .carousel-inner .item .item-mask img {
+      height:660px;
+    }
+  }
