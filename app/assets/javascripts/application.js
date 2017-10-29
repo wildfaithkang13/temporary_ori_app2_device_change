@@ -25,6 +25,12 @@ $(document).on('ready page:load', function() {
   });
 });
 
+$(document).on('ready page:load', function() {
+    return $('.birthday').datetimepicker({
+    format: 'YYYY-MM-DD'
+  });
+});
+
 $(function() {
 
   //利用規約への同意エラー表示スタイル調整
