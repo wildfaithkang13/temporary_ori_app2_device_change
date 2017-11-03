@@ -99,3 +99,17 @@ fieldset{
       height:660px;
     }
   }
+
+//サインアップページの壁紙
+  .main-header {
+  padding-bottom: 5%;
+  background-size: cover;
+  background-image:  url("building.jpg");
+  background-attachment: fixed;
+}
+
+.hero-header-container {
+background: url(/images/building.jpg) no-repeat center; 
+background-size: cover;
+height: 100vh;
+position: relative; /* 中の要素を "absolute"で配置するときに便利 */ }
