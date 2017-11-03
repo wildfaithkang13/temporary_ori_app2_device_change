@@ -50,6 +50,7 @@ footer {
   margin: auto;
   font-size: 12px;
   position: absolute;
+  //position: fixed;
   bottom: 0;
 }
 
@@ -100,16 +101,34 @@ fieldset{
     }
   }
 
-//サインアップページの壁紙
-  .main-header {
+//一般ユーザーのサインアップページ壁紙
+.generaluser-singup-header {
   padding-bottom: 5%;
   background-size: cover;
   background-image:  url("building.jpg");
   background-attachment: fixed;
 }
 
-.hero-header-container {
-background: url(/images/building.jpg) no-repeat center; 
+//一般ユーザーのログインページ壁紙
+.generaluser-login-header {
+padding-bottom: 24%;
 background-size: cover;
-height: 100vh;
-position: relative; /* 中の要素を "absolute"で配置するときに便利 */ }
+background-image:  url("building.jpg");
+background-attachment: fixed;
+}
+
+//一般ユーザーのサインアップページ壁紙
+.shopManager-login-singup-header {
+  padding-bottom: 5%;
+  background-size: cover;
+  background-image:  url("building.jpg");
+  background-attachment: fixed;
+}
+
+//一般ユーザーのログインページ壁紙
+.shopManager-login-header {
+padding-bottom: 12%;
+background-size: cover;
+background-image:  url("building.jpg");
+background-attachment: fixed;
+}

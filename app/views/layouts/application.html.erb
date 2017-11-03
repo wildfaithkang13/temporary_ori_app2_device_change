@@ -45,10 +45,10 @@
         <% else %>
           <% if url_for(only_path: false).include?("general_users") %>
             <li><%= link_to 'ログイン', root_url(only_path: false) + 'general_users/sign_in' %></li>
-            <li><%= link_to 'サインアップ', root_url(only_path: false) + 'general_users/sign_up' %></li>
+            <li><%= link_to 'サインアップ', root_url(only_path: false) + 'general_users/sign_up',  method: 'get' %></li>
           <% else %>
             <li><%= link_to 'ログイン', root_url(only_path: false) + 'shop_managers/sign_in' %></li>
-            <li><%= link_to 'サインアップ', root_url(only_path: false) + 'shop_managers/sign_up' %></li>
+            <li><%= link_to 'サインアップ', root_url(only_path: false) + 'shop_managers/sign_up', method: 'get'  %></li>
           <% end %>
         <% end %>
         </ul>
@@ -79,7 +79,8 @@ newの場合はnew.html.erbの記載した内容が反映される
   <p>© 2015-2016 Copyright DIVE INTO CODE Corp.</p> -->
   <div align= "right" >
     <%= link_to 'よくある質問', question_coupons_path %>
-    <%= link_to '採用情報', recruit_coupons_path %>
+    <!-- JQueryやjavascriptを動かすにはget使うと初回ページ読み込み時でも動く-->
+    <%= link_to '採用情報', recruit_coupons_path, method: 'get' %>
     <%= link_to 'プレスリリース'%>
   </footer>
 </div>

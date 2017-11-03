@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   #Deviseを継承したgeneral_usersとshop_managersを準備する
   devise_for :general_users, {
@@ -30,7 +31,8 @@ Rails.application.routes.draw do
     get 'shop_managers/registrations/agreement' => 'shop_managers/registrations#agreement'
   end
 
-  root 'coupons#index'
+  #root 'coupons#index'
+  root 'top#index'
 
   resources :coupons do
     collection do
