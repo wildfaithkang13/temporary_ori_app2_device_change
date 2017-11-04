@@ -11,10 +11,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171007080053) do
+ActiveRecord::Schema.define(version: 20171104081946) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "available_coupon_service_shop_masters", force: :cascade do |t|
+    t.string   "subsidiary_company_name"
+    t.string   "parent_company_name"
+    t.string   "coupon_content"
+    t.string   "business_category_code"
+    t.string   "company_mail_address"
+    t.string   "telephone_number"
+    t.string   "shop_master_id"
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
 
   create_table "coupon_shop_lists", force: :cascade do |t|
     t.string   "telephone_number"

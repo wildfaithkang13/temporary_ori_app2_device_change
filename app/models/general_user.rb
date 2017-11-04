@@ -5,5 +5,5 @@ class GeneralUser < User
 
   attr_accessor :agreement
 
-  validates_acceptance_of :agreement, allow_nil: false, message: "※会員登録には利用規約への同意が必要です。", on: :create 
+  validates_acceptance_of :agreement, allow_nil: false, message: "※会員登録には利用規約への同意が必要です。", on: :create
 end
