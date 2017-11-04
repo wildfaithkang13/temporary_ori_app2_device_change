@@ -45,7 +45,7 @@ html, body {
   text-transform: uppercase;
   text-decoration: none;
 }
-.btn:hover{
+.top-btn:hover{
   color: #fff;
   border: solid #fff 3px;
 }
@@ -53,7 +53,6 @@ html, body {
 p {
   font-size: 160%;
   line-height:  210%;
-  text-align:  justify;
   margin: 3%;
   font-family: sans-serif;
 }

@@ -1,6 +1,13 @@
-html {
-  height: 100%;
-  font-size: 62.5%;
+// Place all the styles related to the coupons controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+.container{
+  width: 980px;
+  margin: 0 auto;
+  position: relative;
+  min-height: 100%;
 }
 
 //ヘッダーの色を設定する
@@ -16,6 +23,11 @@ background-image: linear-gradient(to top left, #101F1C, #143F38, #2B645B, #5D9F9
 //ヘッダー右側のメニュー文字のデザイン
 .navbar-inverse .navbar-nav>li>a {
     color: red;
+}
+//ログインした時に表示するメッセージの設定
+.flash {
+  color: white;
+  padding-top: 10px;
 }
 
 //メニューを横並びにする
@@ -37,41 +49,32 @@ header li {
   display: block;
 }
 
-body{
-     width: 100%;
-     height:100%; /*ブラウザいっぱいに高さを取得*/
-     margin:0;
-     padding:0;
-}
-
-//コンテナ(ページ全体に関わる設定)
-.container{
-  width: 980px;
-  margin: 0 auto;
-  position: relative;
-  min-height: 100%;
-}
-
-//ログインした時に表示するメッセージの設定
-.flash {
-  color: white;
-  padding-top: 10px;
-}
-
 footer {
-    width: 100%;
-    background-image: linear-gradient(to top left, #101F1C, #143F38, #2B645B, #5D9F95, #1F514E);
-    padding: 20px 0 10px 0;
-    position: absolute;
-    margin: auto;
-    font-size: 13px;
-    background-color: #4D4D4D;
+  width: 100%;
+  background-image: linear-gradient(to top left, #101F1C, #143F38, #2B645B, #5D9F95, #1F514E);
+  padding: 20px 0 10px 0;
+  color: white;
+  margin: auto;
+  font-size: 12px;
+  position: absolute;
+  //position: fixed;
+  //position: relative;
+  bottom: 0;
 }
 
 footer a{
   color: red;
   text-decoration: none;
   text-align: right;
+}
+body {
+  /* bodyで上下に160pxを余白を取る */
+  padding:10px 0 30px 0;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
 }
 
 fieldset{
@@ -116,21 +119,24 @@ fieldset{
 
 //一般ユーザーのログインページ壁紙
 .generaluser-login-header {
-  background-size: cover;
-  background-image:  url("building.jpg");
-  background-attachment: fixed;
+padding-bottom: 22%;
+background-size: cover;
+background-image:  url("building.jpg");
+background-attachment: fixed;
 }
 
-//管理者のサインアップページ壁紙
+//一般ユーザーのサインアップページ壁紙
 .shopManager-login-singup-header {
+  padding-bottom: 5%;
   background-size: cover;
   background-image:  url("building.jpg");
   background-attachment: fixed;
 }
 
-//管理者のログインページ壁紙
+//一般ユーザーのログインページ壁紙
 .shopManager-login-header {
-  background-size: cover;
-  background-image:  url("building.jpg");
-  background-attachment: fixed;
+padding-bottom: 12%;
+background-size: cover;
+background-image:  url("building.jpg");
+background-attachment: fixed;
 }
