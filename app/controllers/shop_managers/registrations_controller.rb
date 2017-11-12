@@ -8,13 +8,20 @@ class ShopManagers::RegistrationsController < Devise::RegistrationsController
   # end
 
   # POST /resource
-  def create
-  #バリデーションチェック 国籍が""の場合
+  # def create
+  # #バリデーションチェック 国籍が""の場合
+  # available = AvailableCouponServiceShopMaster.find_by(shop_master_id: params[:shop_manager][:shop_master_id])
+  # available.shop_managers.build
+  #
+  # binding.pry
+  # #入力した店舗マスタIDが利用可能店舗マスタテーブルに存在するかをチェックする
+  #   super
+  # end
 
-  binding.pry
-  #入力した店舗マスタIDが利用可能店舗マスタテーブルに存在するかをチェックする
-    super
-  end
+  # def build_resource(hash=nil)
+  #   hash[:shop_master_id] = params[:shop_manager][:shop_master_id]
+  #   super
+  # end
 
   # GET /resource/edit
   # def edit

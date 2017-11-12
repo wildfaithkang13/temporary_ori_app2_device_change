@@ -34,9 +34,9 @@
 
         <div class="admin-id">
           ※ブランドごとに発番されている番号<br>
-          <%= f.password_field :manager_id, autocomplete: "off", class: "form-control", placeholder: "店舗マスタID　※必須入力" %>
+          <%= f.password_field :shop_master_id, autocomplete: "off", class: "form-control", placeholder: "店舗マスタID　※必須入力" %>
           ※支店コード<br>
-          <%= f.password_field :shop_manage_id, autocomplete: "off", class: "form-control", placeholder: "支店ID  ※付与されている場合は入力" %>
+          <%= f.password_field :branch_office_id, autocomplete: "off", class: "form-control", placeholder: "支店ID  ※付与されている場合は入力" %>
         </div>
 
         <% if devise_mapping.rememberable? %>

@@ -40,6 +40,7 @@ sh = available.shop_managers.build(email: "test#{n}@co.jp",
                             nationality: 'JPN',
                             sex: 'man',
                             status: '20')
+                            
 
 sh.save
 end
