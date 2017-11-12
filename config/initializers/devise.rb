@@ -6,14 +6,13 @@ Devise.setup do |config|
   # confirmation, reset password and unlock tokens in the database.
   # Devise will use the `secret_key_base` as its `secret_key`
   # by default. You can change it below and use your own secret key.
-  config.secret_key = 'c4a1aab2ac24e28bc70e6d5396ff320173834b2336fdefff45d0549bee92dc91a6495a177c97f0e534350bbb59c8c3e8b47dbfe2d1ee214e8ce5b5d6fae9d00e'
+  # config.secret_key = 'ced86b735c0ed2bcdf41165d45df327ea07050612859b7e50037ee228e6cf456903343ba7c4f6df2c871b7a90d03368d4c3bc8d5ace284f694057bf5af992358'
 
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class
   # with default "from" parameter.
-  #config.mailer_sender = 'please-change-me-at-config-initializers-devise@example.com'
-  config.mailer_sender = 'noreply@yourdomain'
+  config.mailer_sender = 'please-change-me-at-config-initializers-devise@example.com'
 
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'
@@ -109,7 +108,7 @@ Devise.setup do |config|
   config.stretches = Rails.env.test? ? 1 : 11
 
   # Set up a pepper to generate the hashed password.
-  # config.pepper = 'ea2e46f8df5a367f543c0b01e941dbd01197387c3271f1eeb23ae1da8b81f5b11c1308460ae3c4ff1db29cfeb2e2c5a5d08f4b2deaa9090301b7621e2df2c490'
+  # config.pepper = '887d54d144a26264f184aadc41080b85c9388a653270c07f31239f64658d43698e0318f38deab0f36bbd941d3e97d08184f46d74f255aa687f8e9c278fef6e7a'
 
   # Send a notification to the original email when the user's email is changed.
   # config.send_email_changed_notification = false
@@ -224,6 +223,7 @@ Devise.setup do |config|
   # Turn scoped views on. Before rendering "sessions/new", it will first check for
   # "users/sessions/new". It's turned off by default because it's slower if you
   # are using only default views.
+  # config.scoped_views = false
   config.scoped_views = true
 
   # Configure the default scope given to Warden. By default it's the first

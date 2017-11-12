@@ -125,7 +125,8 @@ function hereMap(geocodedShopList) {
         //参考サイト：http://qiita.com/QUANON/items/dd39be7602f9e7226e8e
          $.ajax({
            type: "get",
-           url: url + "coupons/getcoupons/",
+           //url: url + "coupons/getcoupons/",
+           url: url + "/getcoupons/",
            data: { target_shop_list: json_coupon_list}
          }).done(function(data){ //ajaxの通信に成功した場合
          }).fail(function(data){ //ajaxの通信に失敗した場合

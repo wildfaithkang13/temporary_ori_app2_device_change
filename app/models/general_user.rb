@@ -1,9 +1,10 @@
-class GeneralUser < User
-  # 利用規約への同意フラグ（カラムなし）
-  #validates_acceptance_of :agree1, allow_nil: false, message: "※会員登録には利用規約への同意が必要です。", on: :create
-  #validates :terms_of_service, acceptance: true
+class GeneralUser < ActiveRecord::Base
+  # Include default devise modules. Others available are:
+  # :confirmable, :lockable, :timeoutable and :omniauthable
+  #ログイン時のリクエストパラメータに以下を追加する
+  #attr_accessor :manager_id, :shop_manage_id
 
-  attr_accessor :agreement
 
-  validates_acceptance_of :agreement, allow_nil: false, message: "※会員登録には利用規約への同意が必要です。", on: :create
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :trackable, :validatable
 end

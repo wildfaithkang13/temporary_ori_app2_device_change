@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
+
   #Deviseを継承したgeneral_usersとshop_managersを準備する
   devise_for :general_users, {
     path: 'general_users',
@@ -10,14 +11,11 @@ Rails.application.routes.draw do
     }
   }
 
-#スコープ名は単数系
-#devise_scopeとはデバイスの拡張機能で単数系で設定すること。
+  #スコープ名は単数系
+  #devise_scopeとはデバイスの拡張機能で単数系で設定すること。
   devise_scope :general_user do
     get 'general_users/registrations/agreement' => 'general_users/registrations#agreement'
   end
-
-  #利用規約同意画面の参考ページ
-  #http://hirosasaki.hateblo.jp/entry/2013/03/01/Devise%E3%81%A8simple_form%E3%81%A7%E4%BC%9A%E5%93%A1%E7%99%BB%E9%8C%B2%E3%81%99%E3%82%8B%E3%81%A8%E3%81%8D%E3%81%AE%E5%88%A9%E7%94%A8%E8%A6%8F%E7%B4%84%E3%81%B8%E3%81%AE%E5%90%8C%E6%84%8F%E7%A2%BA
 
   devise_for :shop_managers, {
     path: 'shop_managers',

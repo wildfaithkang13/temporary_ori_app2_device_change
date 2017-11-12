@@ -9,8 +9,7 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   #変数PERMISSIBLE_ATTRIBUTESに新規登録時のリクエストパラメーターにnameとstatusを追加する
-  #PERMISSIBLE_ATTRIBUTES = %i(status)
-  PERMISSIBLE_ATTRIBUTES = %i(status)
+  PERMISSIBLE_ATTRIBUTES_SIGNUP = %i(status)
   PERMISSIBLE_ATTRIBUTES_LOGIN = %i(manager_id)
 
   # Devise helper configuration
@@ -20,9 +19,9 @@ class ApplicationController < ActionController::Base
   protected
     #deviseのストロングパラメーターにカラム追加するメソッドを定義
     def configure_permitted_parameters
-      devise_parameter_sanitizer.permit(:sign_up, keys: PERMISSIBLE_ATTRIBUTES)
-      devise_parameter_sanitizer.permit(:sign_in, keys: PERMISSIBLE_ATTRIBUTES_LOGIN)
-      devise_parameter_sanitizer.permit(:account_update, keys: PERMISSIBLE_ATTRIBUTES)
+      devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :occupation, :address, :birthday, :nationality, :sex, :shop_master_id, :branch_office_id, :status, :used_branch_office_id])
+      devise_parameter_sanitizer.permit(:sign_in, keys: [:shop_master_id, :branch_office_id])
+      devise_parameter_sanitizer.permit(:account_update, keys: PERMISSIBLE_ATTRIBUTES_SIGNUP)
     end
 
 end

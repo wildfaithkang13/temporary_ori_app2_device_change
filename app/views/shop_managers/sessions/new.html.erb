@@ -17,26 +17,26 @@
         <% end %>
       <% end %>
 
-      <% if flash[:nomanagementid] %>
-        <%= flash[:nomanagementid] %>
-      <% end %>
+      <!-- <% if flash[:nomanagementid] %>
+        <%#= flash[:nomanagementid] %>
+      <% end %> -->
 
       <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
         <%= devise_error_messages! %>
 
         <div class="field">
-          <%= f.email_field :email, autofocus: true, class: "form-control", placeholder: "メールアドレス" %>
+          <%= f.email_field :email, autofocus: true, class: "form-control", placeholder: "メールアドレス　※必須入力" %>
         </div>
 
         <div class="field">
-          <%= f.password_field :password, autocomplete: "off", class: "form-control", placeholder: "パスワード" %>
+          <%= f.password_field :password, autocomplete: "off", class: "form-control", placeholder: "パスワード ※必須入力" %>
         </div>
 
         <div class="admin-id">
           ※ブランドごとに発番されている番号<br>
-          <%= f.password_field :manager_id, autocomplete: "off", class: "form-control", placeholder: "管理者コード　※必須入力" %>
+          <%= f.password_field :manager_id, autocomplete: "off", class: "form-control", placeholder: "店舗マスタID　※必須入力" %>
           ※支店コード<br>
-          <%= f.password_field :shop_manage_id, autocomplete: "off", class: "form-control", placeholder: "ショップ管理ID  ※付与されている場合は入力" %>
+          <%= f.password_field :shop_manage_id, autocomplete: "off", class: "form-control", placeholder: "支店ID  ※付与されている場合は入力" %>
         </div>
 
         <% if devise_mapping.rememberable? %>
@@ -52,7 +52,6 @@
       <% end %>
       <%= render "devise/shared/links" %>
       一般ユーザーのログインの場合は<%= link_to 'こちら', root_url(only_path: false) + 'general_users/sign_in' %>
-
     </div>
     </div>
   </section>

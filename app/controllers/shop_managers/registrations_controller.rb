@@ -8,9 +8,13 @@ class ShopManagers::RegistrationsController < Devise::RegistrationsController
   # end
 
   # POST /resource
-  # def create
-  #   super
-  # end
+  def create
+  #バリデーションチェック 国籍が""の場合
+
+  binding.pry
+  #入力した店舗マスタIDが利用可能店舗マスタテーブルに存在するかをチェックする
+    super
+  end
 
   # GET /resource/edit
   # def edit
@@ -57,5 +61,4 @@ class ShopManagers::RegistrationsController < Devise::RegistrationsController
   # def after_inactive_sign_up_path_for(resource)
   #   super(resource)
   # end
-
 end

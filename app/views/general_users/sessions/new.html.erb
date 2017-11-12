@@ -1,33 +1,54 @@
 <body class="generaluser-login-header">
 <div class="container">
   <div class="wrapper col-md-4 col-md-offset-4 col-sm-10">
-    <h2>ログイン</h2>
-
-    <%= alert %>
-
-    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-      <%= devise_error_messages! %>
-
-      <div class="field">
-        <%= f.email_field :email, autofocus: true, class: "form-control", placeholder: "メールアドレス" %>
+    <div class="row main">
+      <div class="panel-heading">
+         <div class="panel-title text-center">
+            <h1 class="title">ログイン</h1>
+            <hr />
+          </div>
       </div>
 
-      <div class="field">
-        <%= f.password_field :password, autocomplete: "off", class: "form-control", placeholder: "パスワード" %>
-      </div>
+      <%= alert %>
 
-      <% if devise_mapping.rememberable? %>
-        <div class="field">
-          <%= f.check_box :remember_me %>
-          <%= f.label :内容を記憶させる %>
+      <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+        <%= devise_error_messages! %>
+
+        <!-- メールアドレス -->
+        <div class="form-group">
+          <label for="username" class="cols-sm-2 control-label">メールアドレス</label>
+          <div class="cols-sm-10">
+            <div class="input-group">
+              <span class="input-group-addon"><i class="fa fa-envelope-o" aria-hidden="true"></i></span>
+              <%= f.email_field :email, autofocus: true, class: "form-control", placeholder: "メールアドレス" %>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password" class="cols-sm-2 control-label">パスワード</label>
+          <div class="cols-sm-10">
+            <div class="input-group">
+              <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+              <%= f.password_field :password, autocomplete: "off", class: "form-control", placeholder: "パスワード" %>
+            </div>
+          </div>
+        </div>
+
+        <% if devise_mapping.rememberable? %>
+          <div class="field">
+            <%= f.check_box :remember_me %>
+            <%= f.label :内容を記憶させる %>
+          </div>
+        <% end %>
+
+        <div class="actions">
+          <%= f.submit "ログイン", class: "btn btn-primary btn-block" %>
         </div>
       <% end %>
-
-      <div class="actions">
-        <%= f.submit "ログイン", class: "btn btn-primary btn-block" %>
-      </div>
-    <% end %>
-    <%= render "devise/shared/links" %>
+      <%= render "devise/shared/links" %>
+      管理者のログインの場合は<%= link_to 'こちら', root_url(only_path: false) + 'shop_managers/sign_in' %>
+    </div>
   </div>
 </div>
 </body>

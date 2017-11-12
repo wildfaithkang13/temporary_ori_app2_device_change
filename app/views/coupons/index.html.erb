@@ -1,15 +1,17 @@
 <br>
-<p class="flash"><%= notice %><%= alert %></p>
+<div id="map-canvas">
+  位置情報を取得中です。
+</div>
 
-<div id="map-canvas">ここにマップが表示されます</div>
-
-<p id="text"></p>
-
-<p>Otocoupon加盟店検索</p>
-<form>
-  <input type="text" value="東京スカイツリー" id="address">
-  <input type="button" value="Search" id="button">
-</form>
+<CENTER>
+  <p>
+    Otocoupon加盟店検索
+    <form>
+      <input type="text" value="東京スカイツリー" id="address">
+      <input type="button" value="Search" id="button">
+    </form>
+  </p>
+</CENTER>
 
 <% if flash[:alert].present? %>
   <%= flash[:alert]%>
@@ -27,3 +29,46 @@
 <!-- index.js.erbに設定した内容が動く -->
 <p>現在地周辺のクーポン一覧</p><br>
 <div id="coupon_shop_list_test"></div>
+<br>
+<hr>
+
+
+<div class="container">
+  <p>What's New</p>
+  <div class="wrapper col-md-12 col-sm-10">
+  <table class="table">
+    <tbody>
+      <tr>
+        <td>2017-10-01</td>
+        <td>
+          <div class="news_genre">
+            重要
+          </div>
+        </td>
+        <td>
+          以下の時間帯でサーバー停止します。サーバー停止中は当サイトをご利用できませんのでご注意ください<br>
+          10/02 12:00〜 10/03 24:00
+        </td>
+      </tr>
+      <tr>
+        <td>2017-07-01</td>
+        <td>
+          <div class="news_genre">
+            お知らせ
+          </div>
+        </td>
+        <td>採用募集ページを作成しました</td>
+      </tr>
+      <tr>
+        <td>2017-01-01</td>
+        <td>
+          <div class="news_genre">
+            お知らせ
+          </div>
+        </td>
+        <td>アプリをリリースしました</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</div>
