@@ -44,64 +44,50 @@ class ShopManagers::SessionsController < Devise::SessionsController
    end
 
    if login_shop_master_id.blank?
-    #  reset_session
      errorList.push("店舗マスタIDが入力されておりません");
-     flash[:errorlist] = errorList
-     redirect_to action: 'new'
-     return;
+    end
+
+    isError = !errorList.blank?
+    if isError
+        flash[:errorlist] = errorList
+        redirect_to action: 'new'
+        return;
     end
 
     #入力した店舗マスタIDをキーにサービス利用可能店舗マスタ(available_coupon_service_shop_masters)テーブルを検索する
     get_shop_master_id_result = AvailableCouponServiceShopMaster.find_by(shop_master_id: login_shop_master_id)
 
     if get_shop_master_id_result.blank?
-      # reset_session
-      # redirect_to new_shop_manager_session_path, alert: "入力した店舗マスタIDが存在しません。"
-      # return;
       errorList.push("入力されておりません");
       flash[:errorlist] = errorList
       redirect_to action: 'new'
       return;
     end
-
-      #  get_branch_office_id_result = CouponShopList.find_by(shop_management_id: login_branch_office_id)
-      #  unless get_branch_office_id_result.blank?
-      #   #  user = ShopManager.find(current_user.id)
-      #    user.status = '30'
-      #    #ショップ入力したショップ管理番号にお店の管理者としてクーポンを発行するため、使用中にする
-      #    user.used_branch_office_id = current_user.shop_manage_id.branch_office_id
-      #    user.save
-      #  else
-      #    user = ShopManager.find(current_user.id)
-      #    user.status = '20'
-      #    user.save
-      #  end
-
-      # binding.pry
-
-       super
-
-   #会員登録していないユーザーのログインまたはログイン情報が見つからない場合
-  #  if current_user.blank?
-  #    flash[:errorlist] = errorList
-  #    redirect_to action: 'new'
-  #    return;
-  #  else
-   #
-  #    #入力したショップ管理をキーにクーポンショップリストテーブルを検索する
-  #    get_branch_office_id_result = CouponShopList.find_by(shop_management_id: login_branch_office_id)
-  #    unless get_branch_office_id_result.blank?
-  #      user = ShopManager.find(current_user.id)
-  #      user.status = '30'
-  #      #ショップ入力したショップ管理番号にお店の管理者としてクーポンを発行するため、使用中にする
-  #      user.used_branch_office_id = current_user.shop_manage_id.branch_office_id
-  #      user.save
-  #    else
-  #      user = ShopManager.find(current_user.id)
-  #      user.status = '20'
-  #      user.save
-  #    end
-  #    super
-  #  end
+    super
   end
+
+  def after_sign_in_path_for(resource_or_scope)
+
+      #管理者のログイン時のみ以下を検証する
+      login_branch_office_id  = current_user.branch_office_id
+       get_branch_office_id_result = CouponShopList.find_by(branch_office_id: login_branch_office_id)
+
+       unless get_branch_office_id_result.blank?
+        #  user = ShopManager.find(current_user.id)
+         curret_user.status = '30'
+         #ショップ入力したショップ管理番号にお店の管理者としてクーポンを発行するため、使用中にする
+         curret_user.used_branch_office_id = current_user.shop_manage_id.branch_office_id
+         curret_user.save
+         coupons_path
+       else
+         curret_user = ShopManager.find(current_user.id)
+         curret_user.status = '20'
+         curret_user.save
+         # root_path
+         coupons_path
+       end
+       #それ以外のパターンは何もしない
+   end
+
+
 end

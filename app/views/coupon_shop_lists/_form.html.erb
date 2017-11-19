@@ -1,5 +1,4 @@
 <%= form_for(@new_coupon_shop, url: confirm_coupon_shop_lists_path) do |f| %>
-
 <% if @new_coupon_shop.errors.any? %>
   <div id="error_explanation">
     <h2><%= @new_coupon_shop.errors.count %>件のエラーがあります。</h2>
@@ -17,9 +16,18 @@
   <% end %>
 <% end %>
 
-  <%= f.label :telephone_number, "電話番号"%> <%= f.text_field :telephone_number %> ※ハイフン不要
-  <br><%= f.label :shop_name, "店名"%> <%= f.text_field :shop_name %>
-  <br><%= f.label :occupation_code, "職種"%>
+<!-- <%= f.label :shop_name, "親会社名"%>
+<%= f.hidden_field :shop_name, :value => @getParentCompanyInfo.parent_company_name %>
+<%= f.text_field :shop_name, value: @getParentCompanyInfo.parent_company_name , :disabled => true, size: "100x50"%><br>
+
+<%= f.label :shop_name, "子会社名"%>
+<%= f.hidden_field :shop_name, :value => @getParentCompanyInfo.parent_company_name %>
+<%= f.text_field :shop_name, value: @getParentCompanyInfo.subsidiary_company_name , :disabled => true, size: "100x50"%><br> -->
+
+  <%= f.label :telephone_number, "電話番号"%> <%= f.text_field :telephone_number %> ※ハイフン不要<br>
+
+  <%= f.label :shop_name, "店名(支店名)"%> <%= f.text_field :shop_name %>
+  <%= f.label :occupation_code, "職種"%>
   <%= f.select :occupation_code, [
                                   ["ホテル・旅館", "hotel"],
                                   ["フィットネス(ジム・運動場・プールなど)", "gymnasium"],

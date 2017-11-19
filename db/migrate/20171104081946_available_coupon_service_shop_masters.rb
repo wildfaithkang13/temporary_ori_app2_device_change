@@ -1,6 +1,5 @@
 class AvailableCouponServiceShopMasters < ActiveRecord::Migration
   def change
-      # create_table :available_coupon_service_shop_masters, id: false do |t|
        create_table :available_coupon_service_shop_masters do |t|
         t.string :subsidiary_company_name
         t.string :parent_company_name
@@ -9,6 +8,8 @@ class AvailableCouponServiceShopMasters < ActiveRecord::Migration
         t.string :company_mail_address
         t.string :telephone_number
         t.string :shop_master_id, :null => false
+        t.datetime :available_service_start_date, :null => false
+        t.datetime :available_service_end_date, :null => false
         t.timestamps null: false
       end
       # execute "ALTER TABLE available_coupon_service_shop_masters ADD PRIMARY KEY (shop_master_id)"

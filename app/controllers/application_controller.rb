@@ -27,29 +27,26 @@ class ApplicationController < ActionController::Base
     private
 
     # ログイン後のリダイレクト先
-    def after_sign_in_path_for(resource_or_scope)
-      # if resource_or_scope.is_a?(AdminUser)
-      #   admin_root_path
-      #
-      # else
-      #   root_path
-      # end
-      login_branch_office_id  = current_user.branch_office_id
-       get_branch_office_id_result = CouponShopList.find_by(shop_management_id: login_branch_office_id)
-
-       unless get_branch_office_id_result.blank?
-        #  user = ShopManager.find(current_user.id)
-         curret_user.status = '30'
-         #ショップ入力したショップ管理番号にお店の管理者としてクーポンを発行するため、使用中にする
-         curret_user.used_branch_office_id = current_user.shop_manage_id.branch_office_id
-         curret_user.save
-         coupons_path
-       else
-         curret_user = ShopManager.find(current_user.id)
-         curret_user.status = '20'
-         curret_user.save
-         root_path
-       end
-   end
+  #   def after_sign_in_path_for(resource_or_scope)
+   #
+  #     #管理者のログイン時のみ以下を検証する
+  #     login_branch_office_id  = current_user.branch_office_id
+  #      get_branch_office_id_result = CouponShopList.find_by(shop_management_id: login_branch_office_id)
+   #
+  #      unless get_branch_office_id_result.blank?
+  #       #  user = ShopManager.find(current_user.id)
+  #        curret_user.status = '30'
+  #        #ショップ入力したショップ管理番号にお店の管理者としてクーポンを発行するため、使用中にする
+  #        curret_user.used_branch_office_id = current_user.shop_manage_id.branch_office_id
+  #        curret_user.save
+  #        coupons_path
+  #      else
+  #        curret_user = ShopManager.find(current_user.id)
+  #        curret_user.status = '20'
+  #        curret_user.save
+  #        root_path
+  #      end
+  #      #それ以外のパターンは何もしない
+  #  end
 
 end

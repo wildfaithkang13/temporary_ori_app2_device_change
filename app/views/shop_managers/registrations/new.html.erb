@@ -11,6 +11,13 @@
     	      </div>
             <%= alert %>
 
+            <% if flash[:errorlist] %>
+              <% flash[:errorlist].each do |error| %>
+                <%= error %><br>
+              <% end %>
+            <% end %>
+
+
     				<div class="main-login main-center">
                 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
                   <%= devise_error_messages! %>
@@ -146,7 +153,6 @@
                       </div>
     								</div>
     							</div>
-    						</div>
 
                 <!-- 性別 -->
     						<div class="form-group">
@@ -161,6 +167,10 @@
                       <label>
                         <%= f.radio_button :sex, "woman" ,{:checked => true}%>
                         <i class="fa fa-female fa-2x"></i>
+                      </label>
+                      &nbsp;
+                      <label>
+                        <%= f.radio_button :sex, "lgbt" %> LGBT
                       </label>
     								</div>
     							</div>
@@ -178,6 +188,7 @@
                   <%= f.submit "サインアップ", class: "btn btn-primary btn-block" %>
                 </div>
               <% end %>
+              </div>
               <%= render "devise/shared/links" %>
     				</div>
   			</div>

@@ -2,7 +2,6 @@ class ShopManager < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
 
-
   #変数を参照、代入するためのもの
   attr_accessor :shop_master_code, :branch_office_id
 

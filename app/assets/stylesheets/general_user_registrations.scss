@@ -17,3 +17,22 @@
     margin: 0;
     padding: 0;
 }
+
+
+.user-edit-form {
+  text-align: center;
+  background-color: rgba(71, 38, 66, 0.47);
+  border-radius: 4px;
+  margin: 0 auto;
+  //メニューバーからどれくらいの間を開けるかの設定
+  margin-top: 50px;
+  padding: 30px;
+
+}
+
+//ユーザー編集ページの壁紙
+.edit_user_cover {
+  background-size: cover;
+  background-image:  url("mypage.jpg");
+  background-attachment: fixed;
+}

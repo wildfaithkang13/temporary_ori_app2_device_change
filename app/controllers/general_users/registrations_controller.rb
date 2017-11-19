@@ -12,6 +12,63 @@ class GeneralUsers::RegistrationsController < Devise::RegistrationsController
   end
 
   def create
+    #メルアドとパスワード未入力は親クラスで検知できるが、コントローラ側で即判定を行う。
+    errorList = Array.new
+
+    register_name = params[:general_user][:name]
+    register_email = params[:general_user][:email]
+    register_occupation = params[:general_user][:occupation]
+    register_address = params[:general_user][:address]
+    register_password = params[:general_user][:password]
+    register_birthday = params[:general_user][:birthday]
+    register_nationality = params[:general_user][:nationality]
+    register_sex = params[:general_user][:sex]
+    agreementValue = params[:general_user][:agreement]
+
+    if register_name.blank?
+      errorList.push("名前が入力されておりません");
+    end
+
+    if register_email.blank?
+      errorList.push("メールアドレスが入力されておりません");
+    end
+
+    if register_email.blank?
+      errorList.push("職業が選択されておりません");
+    end
+
+    if register_address.blank?
+      errorList.push("住所が入力されておりません");
+    end
+
+    if register_password.blank?
+      errorList.push("パスワードが入力されておりません。");
+    end
+
+    if register_birthday.blank?
+      errorList.push("生年月日が設定されておりません");
+    end
+
+    if register_nationality.blank?
+      errorList.push("国籍が設定されておりません");
+    end
+
+    #以下のエラーが通常ありえないので万が一発生した場合は危険ユーザー(ハッカー)として扱う。
+    if register_sex.blank?
+      errorList.push("性別が設定されておりません");
+    end
+
+    if agreementValue == "0"
+      errorList.push("利用規約同意のチェックがついていません");
+    end
+
+    isError = !errorList.blank?
+    if isError
+        flash[:errorlist] = errorList
+        redirect_to action: 'new'
+        return;
+    end
+    
      #継承元のdeviseのコントローラーの動きはhttps://github.com/plataformatec/deviseを確認すること
      super
   end
@@ -62,6 +119,7 @@ class GeneralUsers::RegistrationsController < Devise::RegistrationsController
 
   # The path used after sign up.
   # def after_sign_up_path_for(resource)
+  #   raise
   #   super(resource)
   # end
 

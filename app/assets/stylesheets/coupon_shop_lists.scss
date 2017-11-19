@@ -18,3 +18,22 @@
 .holiday-condition {
   display: block;
 }
+
+//クーポンショップ登録画面の背景画像
+.regist_coupon_service{
+  background-size: cover;
+  background-image:  url("register_branch_office.jpg");
+  background-attachment: fixed;
+}
+
+//クーポンショップ登録画面のデザイン
+#nav {
+  background: #99ffb2;
+  padding: 10px;
+  margin-top: 40px;
+  //角の丸みを設定する
+  border-radius:15px;
+  //透明度を設定する
+  // opacity: .8;
+text-align: center;
+}

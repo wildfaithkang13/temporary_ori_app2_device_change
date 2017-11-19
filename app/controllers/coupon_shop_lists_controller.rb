@@ -8,6 +8,9 @@ class CouponShopListsController < ApplicationController
 
   def new
     @new_coupon_shop = CouponShopList.new
+    #親会社名を取得する
+    # getParentCompanyInfo = current_user.shop_master_idをキーに検索する
+    @getParentCompanyInfo = AvailableCouponServiceShopMaster.find_by(shop_master_id: current_user.shop_master_id)
   end
 
   def create
@@ -18,15 +21,15 @@ class CouponShopListsController < ApplicationController
       @new_coupon_shop.close_time = nil
     end
 
-
-    @new_coupon_shop.shop_management_id = SecureRandom.uuid
+    #uuidでidを採番する
+    @new_coupon_shop.branch_office_id = SecureRandom.uuid
 
     if @new_coupon_shop.telephone_number.blank?
       refisterErrorList.push("電話番号が入力されておりません。");
     end
 
     if @new_coupon_shop.shop_name?
-      # refisterErrorList.push("店名が入力されておりません。");
+      refisterErrorList.push("支店名が入力されておりません。");
     end
 
     if @new_coupon_shop.shop_address.blank?
@@ -57,8 +60,7 @@ class CouponShopListsController < ApplicationController
     end
 
     if @new_coupon_shop.save
-      # redirect_to root_path, error: @new_coupon_shop.shop_management_id
-      flash[:notice] = "お客様のショップ管理IDは「" + @new_coupon_shop.shop_management_id + "」です。お忘れにならないようにご注意ください。"
+      flash[:notice] = "お客様の支店IDは「" + @new_coupon_shop.branch_office_id + "」です。お忘れにならないようにご注意ください。"
       redirect_to root_path
     else
       render 'new'

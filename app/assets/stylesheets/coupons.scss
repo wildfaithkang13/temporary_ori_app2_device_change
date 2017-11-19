@@ -1,3 +1,5 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
 html {
   height: 100%;
   font-size: 62.5%;
@@ -156,24 +158,14 @@ fieldset{
   background-attachment: fixed;
 }
 
+//採用ページのスライドショーの文字の設定
 .example {
   position: relative;
   }
 
-// .example p {
-//   position: absolute;
-//   top: 50%;
-//   left: 50%;
-//   -ms-transform: translate(-50%,-50%);
-//   -webkit-transform: translate(-50%,-50%);
-//   transform: translate(-50%,-50%);
-//   margin:0;
-//   padding:0;
-//   /*文字の装飾は省略*/
-//   }
-
 .example p {
   position: absolute;
+  font-size: 38px;
   top: 50%;
   left: 50%;
   color:white;
@@ -195,3 +187,60 @@ fieldset{
                0 10px 10px rgba(0,0,0,.2),
                0 20px 20px rgba(0,0,0,.15);
   }
+
+.effects {
+  font: bold 68px palatino linotype;
+  color: #333;
+  // text-shadow: 0px 2px 3px #777;
+  text-shadow: 0 0 20px #fefcc9, 10px
+  -10px 30px #feec85, -20px -20px 40px #ffae34, 20px -40px 50px #ec760c,
+  -20px -60px 60px #cd4606, 0 -90px 70px
+  #973716, 10px -90px 80px #451b0e;
+}
+
+//1枚目のスクリーションショットの文字設定
+p#fire {
+ color: #f5f5f5;
+ text-shadow:
+ 0px -2px 4px #fff,
+ 0px -2px 10px #FF3,
+ 0px -10px 20px #F90,
+ 0px -20px 40px #C33;
+ font-size: 70px;
+ text-align: center;
+}
+
+//2枚目スクリーンショットの文字設定
+p#area {
+  text-align: center;
+  font-size: 60px;
+  color: #fff;
+  letter-spacing: -7px;
+  font-weight: 700;
+  text-transform: uppercase;
+  animation: blur .75s ease-out infinite;
+  text-shadow: 0px 0px 5px #fff, 0px 0px 7px #fff;
+}
+
+@keyframes blur {
+  from {
+    text-shadow:0px 0px 10px #fff,
+      0px 0px 10px #fff,
+      0px 0px 25px #fff,
+      0px 0px 25px #fff,
+      0px 0px 25px #fff,
+      0px 0px 25px #fff,
+      0px 0px 25px #fff,
+      0px 0px 25px #fff,
+      0px 0px 50px #fff,
+      0px 0px 50px #fff,
+      0px 0px 50px #7B96B8,
+      0px 0px 150px #7B96B8,
+      0px 10px 100px #7B96B8,
+      0px 10px 100px #7B96B8,
+      0px 10px 100px #7B96B8,
+      0px 10px 100px #7B96B8,
+      0px -10px 100px #7B96B8,
+      0px -10px 100px #7B96B8;
+  }
+}

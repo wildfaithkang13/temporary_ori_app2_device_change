@@ -8,15 +8,74 @@ class ShopManagers::RegistrationsController < Devise::RegistrationsController
   # end
 
   # POST /resource
-  # def create
-  # #バリデーションチェック 国籍が""の場合
-  # available = AvailableCouponServiceShopMaster.find_by(shop_master_id: params[:shop_manager][:shop_master_id])
-  # available.shop_managers.build
-  #
-  # binding.pry
-  # #入力した店舗マスタIDが利用可能店舗マスタテーブルに存在するかをチェックする
-  #   super
-  # end
+  def create
+    #デフォルトはコメントアウトしておく
+    available = AvailableCouponServiceShopMaster.find_by(shop_master_id: params[:shop_manager][:shop_master_id])
+
+    #メルアドとパスワード未入力は親クラスで検知できるが、コントローラ側で即判定を行う。
+    errorList = Array.new
+
+    register_name = params[:shop_manager][:name]
+    register_email = params[:shop_manager][:email]
+    register_occupation = params[:shop_manager][:occupation]
+    register_address = params[:shop_manager][:address]
+    register_password = params[:shop_manager][:password]
+    register_birthday = params[:shop_manager][:birthday]
+    register_nationality = params[:shop_manager][:nationality]
+    register_sex = params[:shop_manager][:sex]
+    agreementValue = params[:shop_manager][:agreement]
+
+    if register_name.blank?
+      errorList.push("名前が入力されておりません");
+    end
+
+    if register_email.blank?
+      errorList.push("メールアドレスが入力されておりません");
+    end
+
+    if register_email.blank?
+      errorList.push("職業が選択されておりません");
+    end
+
+    if register_address.blank?
+      errorList.push("住所が入力されておりません");
+    end
+
+    if available.blank?
+      errorList.push("店舗マスタIDが存在しません");
+    end
+
+    if register_password.blank?
+      errorList.push("パスワードが入力されておりません。");
+    end
+
+    if register_birthday.blank?
+      errorList.push("生年月日が設定されておりません");
+    end
+
+    if register_nationality.blank?
+      errorList.push("国籍が設定されておりません");
+    end
+
+    #以下のエラーが通常ありえないので万が一発生した場合は危険ユーザー(ハッカー)として扱う。
+    if register_sex.blank?
+      errorList.push("性別が設定されておりません");
+    end
+
+    if agreementValue == "0"
+      errorList.push("利用規約同意のチェックがついていません");
+    end
+
+    isError = !errorList.blank?
+    if isError
+        flash[:errorlist] = errorList
+        redirect_to action: 'new'
+        return;
+    end
+
+     #継承元のdeviseのコントローラーの動きはhttps://github.com/plataformatec/deviseを確認すること
+     super
+  end
 
   # def build_resource(hash=nil)
   #   hash[:shop_master_id] = params[:shop_manager][:shop_master_id]

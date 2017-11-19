@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171105072655) do
+ActiveRecord::Schema.define(version: 20171119063935) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,9 +23,11 @@ ActiveRecord::Schema.define(version: 20171105072655) do
     t.string   "business_category_code"
     t.string   "company_mail_address"
     t.string   "telephone_number"
-    t.string   "shop_master_id",          null: false
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.string   "shop_master_id",               null: false
+    t.datetime "available_service_start_date", null: false
+    t.datetime "available_service_end_date",   null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
   end
 
   create_table "coupon_shop_lists", force: :cascade do |t|
@@ -37,17 +39,18 @@ ActiveRecord::Schema.define(version: 20171105072655) do
     t.boolean  "all_day_flag"
     t.datetime "open_time"
     t.datetime "close_time"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
     t.string   "holiday"
     t.boolean  "holiday_condition"
-    t.string   "shop_management_id"
+    t.string   "shop_master_id"
     t.string   "occupation_code"
+    t.string   "branch_office_id"
   end
 
   create_table "coupons", force: :cascade do |t|
     t.string   "shop_name"
-    t.text     "coupon_content"
+    t.text     "coupon_title"
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false
     t.float    "latitude"
@@ -57,6 +60,7 @@ ActiveRecord::Schema.define(version: 20171105072655) do
     t.datetime "available_end_time"
     t.string   "coupon_shop_lists_id"
     t.integer  "coupon_shop_list_id"
+    t.string   "coupon_content"
   end
 
   create_table "general_users", force: :cascade do |t|

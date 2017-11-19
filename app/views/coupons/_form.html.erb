@@ -5,6 +5,8 @@
     <%= f.hidden_field :shop_address, :value => @myshop.shop_address %>
     <br><%= f.label :shop_address, "住所"%>
     <br><%= f.text_field :shop_address, value: @myshop.shop_address, :disabled => true, size: "100x50" %>
+    <br><%= f.label :coupon_title, "クーポンタイトル"%>
+    <br><%= f.text_area :coupon_title, size: "100x3"%>
     <br><%= f.label :coupon_content, "クーポン内容"%>
     <br><%= f.text_area :coupon_content, size: "100x3"%>
     <br><%= f.label :available_start_time, "クーポン利用開始時刻" %>
