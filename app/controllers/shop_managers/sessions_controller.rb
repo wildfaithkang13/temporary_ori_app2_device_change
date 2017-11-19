@@ -45,39 +45,39 @@ class ShopManagers::SessionsController < Devise::SessionsController
 
    if login_shop_master_id.blank?
      errorList.push("店舗マスタIDが入力されておりません");
-    end
+   else
+     #入力した店舗マスタIDをキーにサービス利用可能店舗マスタ(available_coupon_service_shop_masters)テーブルを検索する
+     get_shop_master_id_result = AvailableCouponServiceShopMaster.find_by(shop_master_id: login_shop_master_id)
+
+     if get_shop_master_id_result.blank?
+       errorList.push("該当する店舗マスタIDが見つかりません");
+     elsif get_shop_master_id_result.shop_master_id != current_user.shop_master_id
+        errorList.push("店舗マスタIDの照合に失敗しました。");
+     end
+   end
 
     isError = !errorList.blank?
     if isError
+        reset_session
         flash[:errorlist] = errorList
         redirect_to action: 'new'
         return;
     end
 
-    #入力した店舗マスタIDをキーにサービス利用可能店舗マスタ(available_coupon_service_shop_masters)テーブルを検索する
-    get_shop_master_id_result = AvailableCouponServiceShopMaster.find_by(shop_master_id: login_shop_master_id)
-
-    if get_shop_master_id_result.blank?
-      errorList.push("入力されておりません");
-      flash[:errorlist] = errorList
-      redirect_to action: 'new'
-      return;
-    end
     super
   end
 
   def after_sign_in_path_for(resource_or_scope)
 
       #管理者のログイン時のみ以下を検証する
-      login_branch_office_id  = current_user.branch_office_id
+      login_branch_office_id  = params[:shop_manager][:branch_office_id]
        get_branch_office_id_result = CouponShopList.find_by(branch_office_id: login_branch_office_id)
-
        unless get_branch_office_id_result.blank?
         #  user = ShopManager.find(current_user.id)
-         curret_user.status = '30'
+         current_user.status = '30'
          #ショップ入力したショップ管理番号にお店の管理者としてクーポンを発行するため、使用中にする
-         curret_user.used_branch_office_id = current_user.shop_manage_id.branch_office_id
-         curret_user.save
+         # current_user.used_branch_office_id = current_user.shop_manage_id.branch_office_id
+         current_user.save
          coupons_path
        else
          curret_user = ShopManager.find(current_user.id)

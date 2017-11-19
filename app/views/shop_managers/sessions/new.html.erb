@@ -17,10 +17,6 @@
         <% end %>
       <% end %>
 
-      <!-- <% if flash[:nomanagementid] %>
-        <%#= flash[:nomanagementid] %>
-      <% end %> -->
-
       <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
         <%= devise_error_messages! %>
 
@@ -33,7 +29,7 @@
         </div>
 
         <div class="admin-id">
-          ※ブランドごとに発番されている番号<br>
+          ※会員登録時に設定した店舗マスタID<br>
           <%= f.password_field :shop_master_id, autocomplete: "off", class: "form-control", placeholder: "店舗マスタID　※必須入力" %>
           ※支店コード<br>
           <%= f.password_field :branch_office_id, autocomplete: "off", class: "form-control", placeholder: "支店ID  ※付与されている場合は入力" %>

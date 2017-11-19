@@ -28,7 +28,7 @@ class CouponShopListsController < ApplicationController
       refisterErrorList.push("電話番号が入力されておりません。");
     end
 
-    if @new_coupon_shop.shop_name?
+    if @new_coupon_shop.shop_name.blank?
       refisterErrorList.push("支店名が入力されておりません。");
     end
 

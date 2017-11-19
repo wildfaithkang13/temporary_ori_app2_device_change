@@ -23,10 +23,11 @@
 <%= f.label :shop_name, "子会社名"%>
 <%= f.hidden_field :shop_name, :value => @getParentCompanyInfo.parent_company_name %>
 <%= f.text_field :shop_name, value: @getParentCompanyInfo.subsidiary_company_name , :disabled => true, size: "100x50"%><br> -->
+  持株会社名：<%= @getParentCompanyInfo.parent_company_name %><br>
+  サービス名：<%= @getParentCompanyInfo.subsidiary_company_name %><br>
 
+  <%= f.label :shop_name, "店名(支店名)"%> <%= f.text_field :shop_name %><br>
   <%= f.label :telephone_number, "電話番号"%> <%= f.text_field :telephone_number %> ※ハイフン不要<br>
-
-  <%= f.label :shop_name, "店名(支店名)"%> <%= f.text_field :shop_name %>
   <%= f.label :occupation_code, "職種"%>
   <%= f.select :occupation_code, [
                                   ["ホテル・旅館", "hotel"],
@@ -53,8 +54,8 @@
 　</div>
 
   <div class="holiday">
-    <label><%= f.radio_button :holiday_condition, "true" ,{:checked => true}%> 年中無休</label>
-    <label><%= f.radio_button :holiday_condition, "false" %> 定休日あり</label>
+    <label><%= f.radio_button :holiday_condition, "true" %> 年中無休</label>
+    <label><%= f.radio_button :holiday_condition, "false",{:checked => true} %> 定休日あり</label>
   </div>
 
   <div class="holiday-condition">

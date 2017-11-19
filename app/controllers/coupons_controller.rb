@@ -9,7 +9,7 @@ class CouponsController < ApplicationController
     @coupons = Coupon.all
 
     @nearby_shop = CouponShopList.all
-    @googlemaps = @nearby_shop.map{|shop| {id: shop.id, shop_management_id: shop.shop_management_id ,shop_name: shop.shop_name, shop_latitude: shop.shop_latitude, shop_longtitude: shop.shop_longtitude }}.to_json
+    @googlemaps = @nearby_shop.map{|shop| {id: shop.id, shop_master_id: shop.shop_master_id ,shop_name: shop.shop_name, shop_latitude: shop.shop_latitude, shop_longtitude: shop.shop_longtitude }}.to_json
   end
 
   def new
