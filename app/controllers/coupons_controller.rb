@@ -4,17 +4,19 @@ class CouponsController < ApplicationController
 
   before_action :authenticate_user!, except: [:question, :recruit]
   skip_filter :authenticate, except: [:new, :index]
+
   def index
     @gmapkey = ENV["GOOGLE_MAP_API"]
     @coupons = Coupon.all
 
     @nearby_shop = CouponShopList.all
-    @googlemaps = @nearby_shop.map{|shop| {id: shop.id, shop_master_id: shop.shop_master_id ,shop_name: shop.shop_name, shop_latitude: shop.shop_latitude, shop_longtitude: shop.shop_longtitude }}.to_json
+    # @googlemaps = @nearby_shop.map{|shop| {id: shop.id, shop_master_id: shop.shop_master_id ,shop_name: shop.shop_name, shop_latitude: shop.shop_latitude, shop_longtitude: shop.shop_longtitude }}.to_json
+    @googlemaps = @nearby_shop.map{|shop| {id: shop.id, shop_master_id: shop.shop_master_id ,branch_office_id: shop.branch_office_id ,shop_name: shop.shop_name, shop_latitude: shop.shop_latitude, shop_longtitude: shop.shop_longtitude }}.to_json
+
   end
 
   def new
-    @target_branch_office_id = current_user.branch_office_id
-    raise
+    @target_branch_office_id = current_user[:branch_office_id]
     @myshop = CouponShopList.find_by(branch_office_id: @target_branch_office_id)
     # branch_office_id
     @coupon = Coupon.new
@@ -23,9 +25,9 @@ class CouponsController < ApplicationController
   def create
     @targetSendEmail = current_user.email
     @coupon = Coupon.new(coupons_params)
-    @associated = CouponShopList.find_by(shop_management_id: current_user.used_shop_manage_id)
+    @associated = CouponShopList.find_by(branch_office_id: current_user[:branch_office_id])
     @coupon.available_end_time = @coupon.available_end_time + 3599
-    @coupon.coupon_shop_lists_id = current_user.used_shop_manage_id
+    @coupon.coupon_shop_lists_id = current_user[:branch_office_id]
     @coupon.coupon_shop_list_id = @associated.id
     if @coupon.save
       # 一覧画面へ遷移して"ブログを作成しました！"とメッセージを表示します。
@@ -88,7 +90,7 @@ class CouponsController < ApplicationController
 
     sample.each_with_index.reverse_each do |shop_management_id, index|
     #店舗管理IDをキーにクーポンを取得する
-    tmps = Coupon.where(coupon_shop_lists_id: sample[index]['shop_management_id'])
+    tmps = Coupon.where(coupon_shop_lists_id: sample[index]['branch_office_id'])
       tmps.each do |tmp|
         get_coupons.push(tmp)
       end
@@ -130,6 +132,6 @@ class CouponsController < ApplicationController
 
   private
   def coupons_params
-    params.require(:coupon).permit(:shop_name, :shop_address, :coupon_content, :available_start_time, :available_end_time)
+    params.require(:coupon).permit(:shop_name, :shop_address, :coupon_title, :coupon_content, :available_start_time, :available_end_time)
   end
 end

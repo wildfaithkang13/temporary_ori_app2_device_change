@@ -27,7 +27,8 @@ class CouponShopListsController < ApplicationController
     @new_coupon_shop.shop_master_id = current_user.shop_master_id
 
     #uuidでidを採番する
-    @new_coupon_shop.branch_office_id = SecureRandom.uuid
+    # @new_coupon_shop.branch_office_id = SecureRandom.uuid
+    @new_coupon_shop.branch_office_id = SecureRandom.urlsafe_base64
 
     if @new_coupon_shop.telephone_number.blank?
       refisterErrorList.push("電話番号が入力されておりません。");
@@ -148,7 +149,7 @@ class CouponShopListsController < ApplicationController
   end
 
   def myshop
-    @myshop = CouponShopList.find_by(branch_office_id: current_user.branch_office_id)
+    @myshop = CouponShopList.find_by(branch_office_id: current_user[:branch_office_id])
     myShopHolidays = Array.new
     case @myshop.occupation_code
       when 'hotel' then
@@ -204,7 +205,7 @@ class CouponShopListsController < ApplicationController
   end
 
   def issuedcoupon
-    #@isuuedCoupons = Coupon.where(coupon_shop_lists_id: current_user.used_shop_manage_id);
+    @isuuedCoupons = Coupon.where(coupon_shop_lists_id: current_user[:branch_office_id]);
   end
 
   private

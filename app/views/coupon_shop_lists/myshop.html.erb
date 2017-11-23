@@ -1,4 +1,5 @@
 <br>
+<div class="container">
 <h1>マイショップ</h1>
 店舗名：<%= @myshop.shop_name %><br>
 業態：<%= @myshop.occupation_code %><br>
@@ -12,6 +13,7 @@
   定休日：<%= @myshop.holiday %><br>
 <%= link_to "編集", edit_coupon_shop_list_path(@myshop) %>
 <%= link_to "削除", coupon_shop_list_path(@myshop), method: :delete, data: { confirm: '本当に削除していいですか？'} %>
+</div>
 <!--
 <#%= link_to "削除", destroy_shop_manager_session_path(myshop: @myshop), method: :delete, data: { confirm: '本当に削除していいですか？'} %>
 -->
