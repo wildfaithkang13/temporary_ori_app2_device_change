@@ -76,7 +76,7 @@ class ShopManagers::SessionsController < Devise::SessionsController
         #  user = ShopManager.find(current_user.id)
          current_user.status = '30'
          #ショップ入力したショップ管理番号にお店の管理者としてクーポンを発行するため、使用中にする
-         # current_user.used_branch_office_id = current_user.shop_manage_id.branch_office_id
+         #current_user.branch_office_id = get_branch_office_id_result.branch_office_id
          current_user.save
          coupons_path
        else

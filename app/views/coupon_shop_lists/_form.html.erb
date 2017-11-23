@@ -20,9 +20,9 @@
 <%= f.hidden_field :shop_name, :value => @getParentCompanyInfo.parent_company_name %>
 <%= f.text_field :shop_name, value: @getParentCompanyInfo.parent_company_name , :disabled => true, size: "100x50"%><br>
 
-<%= f.label :shop_name, "子会社名"%>
-<%= f.hidden_field :shop_name, :value => @getParentCompanyInfo.parent_company_name %>
-<%= f.text_field :shop_name, value: @getParentCompanyInfo.subsidiary_company_name , :disabled => true, size: "100x50"%><br> -->
+<%= f.label :shop_name, "子会社名"%> -->
+<%= f.hidden_field :shop_master_id , :value => @getParentCompanyInfo.shop_master_id %>
+<!-- <%= f.text_field :shop_name, value: @getParentCompanyInfo.subsidiary_company_name , :disabled => true, size: "100x50"%><br> -->
   持株会社名：<%= @getParentCompanyInfo.parent_company_name %><br>
   サービス名：<%= @getParentCompanyInfo.subsidiary_company_name %><br>
 

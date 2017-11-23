@@ -1,4 +1,7 @@
 class CouponShopListsController < ApplicationController
+  require 'geocoder'
+  API_KEY = ENV["GOOGLE_MAP_API"]
+
   #ショップの管理者のみがリクエストできる(ShopManager)
    before_action :register_post_params, only: [:create, :confirm]
    before_action :authenticate_user!
@@ -21,6 +24,8 @@ class CouponShopListsController < ApplicationController
       @new_coupon_shop.close_time = nil
     end
 
+    @new_coupon_shop.shop_master_id = current_user.shop_master_id
+
     #uuidでidを採番する
     @new_coupon_shop.branch_office_id = SecureRandom.uuid
 
@@ -38,6 +43,7 @@ class CouponShopListsController < ApplicationController
 
     #入力した住所を座標に変える
     #参考サイト：https://www.mk-mode.com/octopress/2013/07/02/ruby-google-geocoding-api/
+
     @BASE_URL = "http://maps.googleapis.com/maps/api/geocode/json"
     url = "#{@BASE_URL}?address=#{URI.encode(@new_coupon_shop.shop_address)}&sensor=false&language=ja"
     res = Net::HTTP.get_response(URI.parse(url))
@@ -49,6 +55,8 @@ class CouponShopListsController < ApplicationController
     else
       refisterErrorList.push("住所を特定することができませんでした。");
     end
+    @new_coupon_shop.shop_latitude = @lat
+    @new_coupon_shop.shop_longtitude = @lng
 
     @new_coupon_shop.shop_latitude = @lat
     @new_coupon_shop.shop_longtitude = @lng
@@ -58,6 +66,20 @@ class CouponShopListsController < ApplicationController
       redirect_to action: 'new'
       return;
     end
+
+    #ショップ管理者テーブルを更新する
+    #branch_office_idを設定する
+    #やる内容は更新
+    @update_shop_manager = ShopManager.find(current_user.id)
+    @update_shop_manager.branch_office_id = @new_coupon_shop.branch_office_id
+
+    if @update_shop_manager.save
+    else
+      flash[:notice] = "支店ID発行に失敗しました。"
+      redirect_to root_path
+    end
+
+
 
     if @new_coupon_shop.save
       flash[:notice] = "お客様の支店IDは「" + @new_coupon_shop.branch_office_id + "」です。お忘れにならないようにご注意ください。"
@@ -126,7 +148,7 @@ class CouponShopListsController < ApplicationController
   end
 
   def myshop
-    @myshop = CouponShopList.find_by(shop_management_id: current_user.used_shop_manage_id)
+    @myshop = CouponShopList.find_by(branch_office_id: current_user.branch_office_id)
     myShopHolidays = Array.new
     case @myshop.occupation_code
       when 'hotel' then
@@ -182,7 +204,7 @@ class CouponShopListsController < ApplicationController
   end
 
   def issuedcoupon
-    @isuuedCoupons = Coupon.where(coupon_shop_lists_id: current_user.used_shop_manage_id);
+    #@isuuedCoupons = Coupon.where(coupon_shop_lists_id: current_user.used_shop_manage_id);
   end
 
   private

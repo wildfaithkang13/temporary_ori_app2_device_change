@@ -13,8 +13,10 @@ class CouponsController < ApplicationController
   end
 
   def new
-    @target_shop_manage_id = current_user.used_shop_manage_id
-    @myshop = CouponShopList.find_by(shop_management_id: @target_shop_manage_id)
+    @target_branch_office_id = current_user.branch_office_id
+    raise
+    @myshop = CouponShopList.find_by(branch_office_id: @target_branch_office_id)
+    # branch_office_id
     @coupon = Coupon.new
   end
 
