@@ -1,4 +1,8 @@
 class CouponsController < ApplicationController
+  require 'barby/barcode/code_128'
+  require 'barby/barcode/qr_code'
+  require 'barby/outputter/png_outputter'
+
   #特定のアクションだけ認証を外す方法
   #https://doruby.jp/users/maya/entries/_Rails_devise_
 
@@ -29,6 +33,15 @@ class CouponsController < ApplicationController
     @coupon.available_end_time = @coupon.available_end_time + 3599
     @coupon.coupon_shop_lists_id = current_user[:branch_office_id]
     @coupon.coupon_shop_list_id = @associated.id
+
+    #1次元バーコードを生成する。
+    content = 'show ip route' # QRコードの中身
+    xdim    = 3  # 一番細いバーの幅
+    code128 = Barby::Code128B.new(content)
+    @code128 = code128.to_image(xdim: xdim).to_data_url
+
+    #QRコード
+
     if @coupon.save
       # 一覧画面へ遷移して"ブログを作成しました！"とメッセージを表示します。
       redirect_to root_path, alert: "クーポンを投稿しました！"
@@ -46,7 +59,39 @@ class CouponsController < ApplicationController
   end
 
   def show
+    #参考サイト(QRコードにリンクを埋め込む)
+    #http://gosyujin.github.io/2013/12/24/ruby-qr/
+
+    #クーポンの詳細内容
+
     @coupon_detail = Coupon.find(params[:id])
+
+    # #1次元バーコードを生成する(仕組みは意識しない)
+    content = 'show ip route' # QRコードの中身
+    xdim    = 3  # 一番細いバーの幅
+    code128 = Barby::Code128B.new(content)
+    @code128 = code128.to_image(xdim: xdim).to_data_url
+    #
+    # #QRコードを生成する
+    # content = 'show ip route' # QRコードの中身
+    # size    = 3 # QRコードのバージョン 1〜40
+    # level   = :m # 誤り訂正レベル, l/m/q/h
+    xdim    = 3  # 一番細いバーの幅
+    #
+    # # QRコード生成
+    # qrcode = Barby::QrCode.new(content, size: size, level: level)
+    # @qrCode = qrcode.to_image(xdim: xdim).to_data_url
+
+    #アクセスするリンクを埋め込む(パラメーターが利用済みフラグを渡す)
+
+    data = <<-"EOS"
+      http://google.com
+    EOS
+
+    qrcode = Barby::QrCode.new(data.encode("UTF-8"))
+    @qrCode = qrcode.to_image(xdim: xdim).to_data_url
+
+
   end
 
   def destroy

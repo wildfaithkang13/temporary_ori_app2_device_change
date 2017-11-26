@@ -3,7 +3,7 @@ class ShopManager < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
 
   #変数を参照、代入するためのもの
-  attr_accessor :shop_master_code, :branch_office_id
+  # attr_accessor :action_name
 
   # belong_to　親テーブルに検索する時に行うので
   belongs_to :available_coupon_service_shop_master, primary_key: :shop_master_id, foreign_key: :shop_master_id

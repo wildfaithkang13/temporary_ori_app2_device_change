@@ -17,7 +17,7 @@
               <% end %>
             <% end %>
 
-
+            <!-- 会員登録時にリクエストパラメーターの制御は application_controllerにて行う。-->
     				<div class="main-login main-center">
                 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
                   <%= devise_error_messages! %>
@@ -49,7 +49,7 @@
     							<label for="username" class="cols-sm-2 control-label">職業</label>
     							<div class="cols-sm-10">
     								<div class="input-group">
-                      <span class="input-group-addon"><i class="fa fa-building" aria-hidden="true"></i></span>
+                      <span class="input-group-addon"><i class="fa fa-industry" aria-hidden="true"></i></span>
                       <%= f.select :occupation, [
                                                 ["公務員", "公務員"],
                                                 ["経営者・役員", "経営者・役員"],
@@ -66,6 +66,30 @@
     								</div>
     							</div>
     						</div>
+
+                <div class="employee-check">
+                  <!-- coupons.coffeeに処理の記載あり-->
+                  <label for="username" class="cols-sm-2 control-label">雇用形態</label>
+                  <div class="cols-sm-10">
+                    <div class="input-group">
+                    <label><%= f.radio_button :employee_status, 10 ,{:checked => true} %> 店長・管理者</label>
+                    &nbsp;
+                    &nbsp;
+                    <label><%= f.radio_button :employee_status, 20 %> 従業員</label>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 店舗登録カウントにデフォルト値0を設定する-->
+                <%= f.hidden_field :register_shop_count , :value => 0%>
+
+                <div class="coupon-time-click">
+                    <label for="username" class="cols-sm-2 control-label">複数店舗の店長または管理者ですか？</label>
+                    <br>
+                    <label><%= f.radio_button :multi_store_manager_flag, "true" %> YES</label>
+                    &nbsp;
+                    <label><%= f.radio_button :multi_store_manager_flag, "false" ,{:checked => true}%> NO</label>
+                　</div>
 
                 <!-- 住所 -->
     						<div class="form-group">

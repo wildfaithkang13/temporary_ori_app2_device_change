@@ -3,14 +3,14 @@ class CouponShopListsController < ApplicationController
   API_KEY = ENV["GOOGLE_MAP_API"]
 
   #ショップの管理者のみがリクエストできる(ShopManager)
-   before_action :register_post_params, only: [:create, :confirm]
+   before_action :register_post_params, only: [:create, :confirm, :update]
    before_action :authenticate_user!
   def index
     redirect_to root_path
   end
 
   def new
-    @new_coupon_shop = CouponShopList.new
+    @coupon_shop = CouponShopList.new
     #親会社名を取得する
     # getParentCompanyInfo = current_user.shop_master_idをキーに検索する
     @getParentCompanyInfo = AvailableCouponServiceShopMaster.find_by(shop_master_id: current_user.shop_master_id)
@@ -18,29 +18,56 @@ class CouponShopListsController < ApplicationController
 
   def create
     refisterErrorList = Array.new
+
+    #店舗重複登録チェック
+    #以下の条件の場合、重複登録または複数店舗登録を防止する。
+    #①管理者のmulti_store_manager_flagがfalseかつemployee_statusが10の場合
+    #②従業員の場合、multi_store_manager_flagが20の場合
+    #以上の条件でregister_shop_countが1以上の場合
+
+    #管理者テーブルを検索しmulti_store_manager_flag、employee_statusの状態を確認する
+    @checkDualRegistrationCondition = ShopManager.find(current_user.id)
+    #複数店舗登録チェック対象かどうかを判定する。
+    if @checkDualRegistrationCondition.employee_status == 20 || (@checkDualRegistrationCondition.employee_status == 10 && !@checkDualRegistrationCondition.multi_store_manager_flag)   then
+      #複数店舗登録チェック対象の場合はregister_shop_countをチェックする
+      if @checkDualRegistrationCondition.register_shop_count > 1
+        refisterErrorList.push("複数店舗登録権限がありません。");
+        flash[:errorlist] = refisterErrorList
+        redirect_to action: 'new'
+        return;
+      end
+    end
+
     @new_coupon_shop = CouponShopList.new(register_post_params)
     if @new_coupon_shop.all_day_flag
       @new_coupon_shop.open_time = nil
       @new_coupon_shop.close_time = nil
     end
 
+    #持ち株会社名を設定する
+
+    #店名を加工する。
+    # if @new_coupon_shop.shop_name.end_with?("店")
+    #   raise
+    #   refisterErrorList.push("店名・支店名の最後に「店」は必要ありません。");
+    # end
+
     @new_coupon_shop.shop_master_id = current_user.shop_master_id
 
     #uuidでidを採番する
-    # @new_coupon_shop.branch_office_id = SecureRandom.uuid
     @new_coupon_shop.branch_office_id = SecureRandom.urlsafe_base64
 
-    if @new_coupon_shop.telephone_number.blank?
-      refisterErrorList.push("電話番号が入力されておりません。");
-    end
-
-    if @new_coupon_shop.shop_name.blank?
-      refisterErrorList.push("支店名が入力されておりません。");
-    end
-
-    if @new_coupon_shop.shop_address.blank?
-      refisterErrorList.push("住所が入力されておりません。");
-    end
+    # if @new_coupon_shop.telephone_number.blank?
+    #   refisterErrorList.push("電話番号が入力されておりません。");
+    # end
+    #
+    # if @new_coupon_shop.shop_name.blank?
+    #   refisterErrorList.push("支店名が入力されておりません。");
+    # end
+    #
+    # if @new_coupon_shop.shop_address.blank?
+    #   refisterErrorList.push("住所が入力されておりません。");
+    # end
 
     #入力した住所を座標に変える
     #参考サイト：https://www.mk-mode.com/octopress/2013/07/02/ruby-google-geocoding-api/
@@ -80,8 +107,6 @@ class CouponShopListsController < ApplicationController
       redirect_to root_path
     end
 
-
-
     if @new_coupon_shop.save
       flash[:notice] = "お客様の支店IDは「" + @new_coupon_shop.branch_office_id + "」です。お忘れにならないようにご注意ください。"
       redirect_to root_path
@@ -91,7 +116,34 @@ class CouponShopListsController < ApplicationController
   end
 
   def confirm
+    refisterErrorList = Array.new
     @new_coupon_shop = CouponShopList.new(register_post_params)
+
+    if @new_coupon_shop.telephone_number.blank?
+      refisterErrorList.push("電話番号が入力されておりません。");
+    end
+
+    if @new_coupon_shop.shop_name.blank?
+      refisterErrorList.push("支店名が入力されておりません。");
+    end
+
+    if @new_coupon_shop.shop_address.blank?
+      refisterErrorList.push("住所が入力されておりません。");
+    end
+
+    #最後に空白が入っている場合は消す
+
+    if @new_coupon_shop.shop_name.end_with?("店")
+
+      refisterErrorList.push("店名・支店名の最後に「店」は必要ありません。");
+    end
+
+    # if refisterErrorList.present?
+    #   flash[:errorlist] = refisterErrorList
+    #   redirect_to action: 'new'
+    #   return;
+    # end
+
   end
 
   def edit
@@ -99,8 +151,9 @@ class CouponShopListsController < ApplicationController
   end
 
   def update
-    @update_shop = CouponShopList.find(params[:id])
-    if @update_shop.update(coupon_shop_list_params)
+    @update_shop = CouponShopList.find_by(branch_office_id: params[:coupon_shop_list][:branch_office_id])
+
+    if @update_shop.update(register_post_params)
       redirect_to root_path, alert: "マイショップを更新しました！"
     else
       render 'edit'
@@ -215,6 +268,6 @@ class CouponShopListsController < ApplicationController
 
   def register_post_params
     #requireにはテーブル名の単数系が入るので注意すること
-    params.require(:coupon_shop_list).permit(:telephone_number, :shop_name, :shop_address, :occupation_code, :all_day_flag, :open_time, :close_time, {:holiday => []} )
+    params.require(:coupon_shop_list).permit(:telephone_number, :shop_name, :shop_address, :occupation_code, :all_day_flag,:subsidiary_company_name, :action_name, :open_time, :close_time, {:holiday => []} )
   end
 end

@@ -9,7 +9,9 @@
   <%= f.hidden_field :open_time %>
   <%= f.hidden_field :close_time %>
   <%= f.hidden_field :holiday , {:multiple => true} %>
+  <%= f.hidden_field :subsidiary_company_name %>
   <p>電話番号:<%= @new_coupon_shop.telephone_number %></p>
+  <p>サービス名：<%= @new_coupon_shop.subsidiary_company_name %></p>
   <p>店名:<%= @new_coupon_shop.shop_name %></p>
   <p>住所:<%= @new_coupon_shop.shop_address %></p>
   <p>業種:<%= @new_coupon_shop.occupation_code %></p>

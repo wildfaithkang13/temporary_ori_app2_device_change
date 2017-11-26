@@ -1,9 +1,11 @@
-<%= form_for(@new_coupon_shop, url: confirm_coupon_shop_lists_path) do |f| %>
-<% if @new_coupon_shop.errors.any? %>
+<%= form_for(@coupon_shop, url: confirm_coupon_shop_lists_path) do |f| %>
+<!-- ヘルパメソッドを呼ぶ -->
+<!-- <#%= form_for(@new_coupon_shop, url: coupon_shop_info_check) do |f| %> -->
+<% if @coupon_shop.errors.any? %>
   <div id="error_explanation">
-    <h2><%= @new_coupon_shop.errors.count %>件のエラーがあります。</h2>
+    <h2><%= @coupon_shop.errors.count %>件のエラーがあります。</h2>
     <ul>
-    <% @new_coupon_shop.errors.full_messages.each do |msg| %>
+    <% @coupon_shop.errors.full_messages.each do |msg| %>
       <li><%= msg %></li>
     <% end %>
     </ul>
@@ -16,17 +18,11 @@
   <% end %>
 <% end %>
 
-<!-- <%= f.label :shop_name, "親会社名"%>
-<%= f.hidden_field :shop_name, :value => @getParentCompanyInfo.parent_company_name %>
-<%= f.text_field :shop_name, value: @getParentCompanyInfo.parent_company_name , :disabled => true, size: "100x50"%><br>
-
-<%= f.label :shop_name, "子会社名"%> -->
 <%= f.hidden_field :shop_master_id , :value => @getParentCompanyInfo.shop_master_id %>
-<!-- <%= f.text_field :shop_name, value: @getParentCompanyInfo.subsidiary_company_name , :disabled => true, size: "100x50"%><br> -->
   持株会社名：<%= @getParentCompanyInfo.parent_company_name %><br>
+<%= f.hidden_field :subsidiary_company_name , :value => @getParentCompanyInfo.subsidiary_company_name %>
   サービス名：<%= @getParentCompanyInfo.subsidiary_company_name %><br>
-
-  <%= f.label :shop_name, "店名(支店名)"%> <%= f.text_field :shop_name %><br>
+  <%= f.label :shop_name, "店名(支店名)"%> <%= f.text_field :shop_name %> 店<br>
   <%= f.label :telephone_number, "電話番号"%> <%= f.text_field :telephone_number %> ※ハイフン不要<br>
   <%= f.label :occupation_code, "職種"%>
   <%= f.select :occupation_code, [

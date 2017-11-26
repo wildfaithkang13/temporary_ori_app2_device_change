@@ -37,6 +37,12 @@ gem 'momentjs-rails'
 
 gem 'bootstrap3-datetimepicker-rails'
 
+gem 'barby'
+
+gem 'rqrcode'
+
+gem 'chunky_png'
+
 group :development do
   gem 'dotenv-rails'
   gem 'letter_opener_web'

@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
   protected
     #deviseのストロングパラメーターにカラム追加するメソッドを定義
     def configure_permitted_parameters
-      devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :occupation, :address, :birthday, :nationality, :sex, :shop_master_id, :branch_office_id, :status, :used_branch_office_id])
+      devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :occupation, :address, :birthday, :nationality, :sex, :shop_master_id, :branch_office_id, :status, :used_branch_office_id, :multi_store_manager_flag, :employee_status, :register_shop_count])
       devise_parameter_sanitizer.permit(:sign_in, keys: [:shop_master_id, :branch_office_id])
       devise_parameter_sanitizer.permit(:account_update, keys: PERMISSIBLE_ATTRIBUTES_SIGNUP)
     end

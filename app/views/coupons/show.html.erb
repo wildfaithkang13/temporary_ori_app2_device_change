@@ -1,8 +1,34 @@
 <br>
 店舗名：<%= @coupon_detail.shop_name %><br>
+クーポンタイトル：<%= @coupon_detail.coupon_title %><br>
 クーポン内容：<%= @coupon_detail.coupon_content %><br>
 クーポン利用開始時刻：<%= @coupon_detail.available_start_time.strftime('%Y年%m月%d日 %H:%M:%S') %><br>
 クーポン利用終了時刻：<%= @coupon_detail.available_end_time.strftime('%Y年%m月%d日 %H:%M:%S') %><br>
+
+<p>1次元バーコードの値</p><br>
+<%= @code128 %><br>
+<p>QRコードの値</p><br>
+<%= @qrCode %>
+
+<!-- バーコードの値はStringm型で持たせる　-->
+<!--
+data:image/png;base64,の部分を切り取ってDBに登録する
+詳細画面表示時にDBからバーコード生成値を取得して前に「data:image/png;base64,」を結合する
+-->
+
+<b>複数回利用できるクーポンは1次元バーコードを表示。</b><br>
+<img src="<%= @code128 %>"><br>
+<!-- 店舗側がQRコードを取得する -->
+<b>1回限りの利用の場合はQRコードを表示する</b><br>
+<!-- どうやって未使用、利用済みを判断するか -->
+<img src="<%= @qrCode %>"><br>
+
+<!--
+QRコード参考サイト:http://wp.tech-style.info/archives/932
+一次元バーコード：https://qiita.com/kooshin/items/0afd50fa7c647d23af4a
+-->
+
+<!--<img src="https://api.qrserver.com/v1/create-qr-code/?data=イケてないコード&size=100x100&format=svg&color=1d417a&bgcolor=f7f6eb" alt="QRコード"/>-->
 
 <!-- カウントダウン参考サイト：http://qiita.com/colorrabbit/items/45ee16aca2972abf7c7d-->
 <script type="text/javascript">
@@ -14,7 +40,6 @@
   let count = 0;
   function countss(geocodedShopList) {
     $("#TimeLeft").text(countDown())
-    // console.log(count)
   }
 
   function countDown() {

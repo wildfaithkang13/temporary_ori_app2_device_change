@@ -21,6 +21,22 @@ AvailableCouponServiceShopMaster.create(subsidiary_company_name: 'ファミリ�
                                         available_service_end_date: '2020-12-31'
                                         )
 
+CouponShopList.create(telephone_number: '0354569305',
+                      shop_name: 'ファミリーマート　道玄坂上店',
+                      shop_address: '東京都渋谷区円山町28-1',
+                      shop_latitude: '35.656064',
+                      shop_longtitude: '139.694724',
+                      all_day_flag: true,
+                      open_time: nil,
+                      close_time: nil,
+                      holiday: '[""]',
+                      holiday_condition: nil,
+                      shop_master_id: 'familymartlove',
+                      occupation_code: 'retail',
+                      branch_office_id: 'aEaRXeILaZsOhbxS2CvmIg',
+                      subsidiary_company_name: 'ファミリーマート'
+                      )
+
 available_shop1 = AvailableCouponServiceShopMaster.create(subsidiary_company_name: 'デニーズ',
                                         parent_company_name: 'セブン&アイ・ホールディングス',
                                         coupon_content: '',
