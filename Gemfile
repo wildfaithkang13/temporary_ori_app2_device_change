@@ -43,6 +43,11 @@ gem 'rqrcode'
 
 gem 'chunky_png'
 
+# gem 'cocoon'
+gem "nested_form"
+
+gem 'nested_form_fields'
+
 group :development do
   gem 'dotenv-rails'
   gem 'letter_opener_web'

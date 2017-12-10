@@ -19,7 +19,9 @@
 
             <!-- 会員登録時にリクエストパラメーターの制御は application_controllerにて行う。-->
     				<div class="main-login main-center">
-                <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+              <%#binding.pry%>
+                <%= form_for(@shop_manager, url: shop_manager_registration_path) do |f| %>
+                <%#= nested_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
                   <%= devise_error_messages! %>
                   <%= f.hidden_field :status, :value => "20" %>
                 <!-- 名前 -->
@@ -69,7 +71,7 @@
 
                 <div class="employee-check">
                   <!-- coupons.coffeeに処理の記載あり-->
-                  <label for="username" class="cols-sm-2 control-label">雇用形態</label>
+                  <label for="username" class="cols-sm-2 control-label">役職</label>
                   <div class="cols-sm-10">
                     <div class="input-group">
                     <label><%= f.radio_button :employee_status, 10 ,{:checked => true} %> 店長・管理者</label>
@@ -82,14 +84,14 @@
 
                 <!-- 店舗登録カウントにデフォルト値0を設定する-->
                 <%= f.hidden_field :register_shop_count , :value => 0%>
-
+                <!-- 役職で「店長・管理者」を選択した場合は以下が表示される。-->
                 <div class="coupon-time-click">
                     <label for="username" class="cols-sm-2 control-label">複数店舗の店長または管理者ですか？</label>
                     <br>
                     <label><%= f.radio_button :multi_store_manager_flag, "true" %> YES</label>
                     &nbsp;
                     <label><%= f.radio_button :multi_store_manager_flag, "false" ,{:checked => true}%> NO</label>
-                　</div>
+                </div>
 
                 <!-- 住所 -->
     						<div class="form-group">
@@ -102,16 +104,30 @@
     							</div>
     						</div>
 
-                <!-- 店舗コード -->
-                <div class="form-group">
+                <!-- <div class="form-group">
     							<label for="password" class="cols-sm-2 control-label">店舗マスタID</label>
-    							<div class="cols-sm-10">
-    								<div class="input-group">
+    							<div class="cols-sm-10 master_id_column">
+    								<div class="input-group master_id_content">
     									<span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-    									<%= f.text_field :shop_master_id, autofocus: true, class: "form-control", placeholder: "店舗マスタID" %>
+                        <div class="add_master_row">
+                          <%#= f.text_field :shop_master_id, autofocus: true, class: "form-control", placeholder: "店舗マスタID" %>
+                        </div>
     								</div>
     							</div>
-    						</div>
+                  <button type="button" name="button" class="add_master">add</button>
+    						</div> -->
+
+                <!-- 店舗マスタIDを複数入力 -->
+                <!-- 参考サイト：　http://ruby-rails.hatenadiary.com/entry/20141208/1418018874-->
+
+                  <%= f.nested_fields_for :relation_shops do |od| %>
+                    <div class="form-group master_id_content">
+                      <%= od.label :shop_master_id, "店舗マスタID" %>
+                      <%= od.text_field :shop_master_id %><br/>
+                      <%= od.remove_nested_fields_link 'Delete', class: 'btn btn-danger', role: 'button' %>
+                    </div>
+                  <% end %>
+                  <%= f.add_nested_fields_link :relation_shops, 'Add new', class: 'btn btn-primary', role: 'button' %>
 
                 <!-- パスワード -->
     						<div class="form-group">

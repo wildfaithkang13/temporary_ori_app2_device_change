@@ -18,25 +18,7 @@ class CouponShopListsController < ApplicationController
 
   def create
     refisterErrorList = Array.new
-
-    #店舗重複登録チェック
-    #以下の条件の場合、重複登録または複数店舗登録を防止する。
-    #①管理者のmulti_store_manager_flagがfalseかつemployee_statusが10の場合
-    #②従業員の場合、multi_store_manager_flagが20の場合
-    #以上の条件でregister_shop_countが1以上の場合
-
-    #管理者テーブルを検索しmulti_store_manager_flag、employee_statusの状態を確認する
-    @checkDualRegistrationCondition = ShopManager.find(current_user.id)
-    #複数店舗登録チェック対象かどうかを判定する。
-    if @checkDualRegistrationCondition.employee_status == 20 || (@checkDualRegistrationCondition.employee_status == 10 && !@checkDualRegistrationCondition.multi_store_manager_flag)   then
-      #複数店舗登録チェック対象の場合はregister_shop_countをチェックする
-      if @checkDualRegistrationCondition.register_shop_count > 1
-        refisterErrorList.push("複数店舗登録権限がありません。");
-        flash[:errorlist] = refisterErrorList
-        redirect_to action: 'new'
-        return;
-      end
-    end
+    arrayBranchOfficeId = Array.new
 
     @new_coupon_shop = CouponShopList.new(register_post_params)
     if @new_coupon_shop.all_day_flag
@@ -44,30 +26,35 @@ class CouponShopListsController < ApplicationController
       @new_coupon_shop.close_time = nil
     end
 
-    #持ち株会社名を設定する
-
-    #店名を加工する。
-    # if @new_coupon_shop.shop_name.end_with?("店")
-    #   raise
-    #   refisterErrorList.push("店名・支店名の最後に「店」は必要ありません。");
-    # end
-
     @new_coupon_shop.shop_master_id = current_user.shop_master_id
 
-    #uuidでidを採番する
-    @new_coupon_shop.branch_office_id = SecureRandom.urlsafe_base64
+    #支店IDを追加する。
+    # raise
 
-    # if @new_coupon_shop.telephone_number.blank?
-    #   refisterErrorList.push("電話番号が入力されておりません。");
-    # end
-    #
-    # if @new_coupon_shop.shop_name.blank?
-    #   refisterErrorList.push("支店名が入力されておりません。");
-    # end
-    #
-    # if @new_coupon_shop.shop_address.blank?
-    #   refisterErrorList.push("住所が入力されておりません。");
-    # end
+    #ショップ管理者テーブルを更新する
+    @update_shop_manager = ShopManager.find(current_user.id)
+
+    if current_user.branch_office_id.blank?
+      #初回登録時でも配列として入れておく
+      @new_coupon_shop.branch_office_id = SecureRandom.urlsafe_base64
+      # @update_shop_manager.branch_office_id = [@new_coupon_shop.branch_office_id]
+      arrayBranchOfficeId.push(@new_coupon_shop.branch_office_id);
+      @update_shop_manager.branch_office_id = arrayBranchOfficeId
+    else
+      #2回目以降の登録の場合
+      #[]の状態なのでまず[]を外す
+      # @update_shop_manager.branch_office_id = @update_shop_manager.branch_office_id.delete("[")
+      # @update_shop_manager.branch_office_id = @update_shop_manager.branch_office_id.delete("]")
+      # @update_shop_manager.branch_office_id = @update_shop_manager.branch_office_id.gsub!("\"","")
+
+      @new_coupon_shop.branch_office_id = SecureRandom.urlsafe_base64
+      # @update_shop_manager.branch_office_id = [@update_shop_manager.branch_office_id + "," + @new_coupon_shop.branch_office_id]
+      # @update_shop_manager.branch_office_id = arrayBranchOfficeId
+      @update_shop_manager.branch_office_id.push(@new_coupon_shop.branch_office_id)
+    end
+
+    #uuidでidを採番する
+    # @new_coupon_shop.branch_office_id = SecureRandom.urlsafe_base64
 
     #入力した住所を座標に変える
     #参考サイト：https://www.mk-mode.com/octopress/2013/07/02/ruby-google-geocoding-api/
@@ -95,12 +82,6 @@ class CouponShopListsController < ApplicationController
       return;
     end
 
-    #ショップ管理者テーブルを更新する
-    #branch_office_idを設定する
-    #やる内容は更新
-    @update_shop_manager = ShopManager.find(current_user.id)
-    @update_shop_manager.branch_office_id = @new_coupon_shop.branch_office_id
-
     if @update_shop_manager.save
     else
       flash[:notice] = "支店ID発行に失敗しました。"
@@ -116,6 +97,20 @@ class CouponShopListsController < ApplicationController
   end
 
   def confirm
+
+    #管理者テーブルを検索しmulti_store_manager_flag、employee_statusの状態を確認する
+    @checkDualRegistrationCondition = ShopManager.find(current_user.id)
+    #複数店舗登録チェック対象かどうかを判定する。
+    if @checkDualRegistrationCondition.employee_status == 20 || (@checkDualRegistrationCondition.employee_status == 10 && !@checkDualRegistrationCondition.multi_store_manager_flag)   then
+      #複数店舗登録チェック対象の場合はregister_shop_countをチェックする
+      if @checkDualRegistrationCondition.register_shop_count > 1
+        refisterErrorList.push("複数店舗登録権限がありません。");
+        flash[:errorlist] = refisterErrorList
+        redirect_to action: 'new'
+        return;
+      end
+    end
+
     refisterErrorList = Array.new
     @new_coupon_shop = CouponShopList.new(register_post_params)
 
@@ -131,18 +126,41 @@ class CouponShopListsController < ApplicationController
       refisterErrorList.push("住所が入力されておりません。");
     end
 
-    #最後に空白が入っている場合は消す
+    #空白を消す
+    @new_coupon_shop.shop_name.gsub(" ", "")
 
+    #店名に店が入っている場合はエラーとする
     if @new_coupon_shop.shop_name.end_with?("店")
-
       refisterErrorList.push("店名・支店名の最後に「店」は必要ありません。");
     end
 
-    # if refisterErrorList.present?
-    #   flash[:errorlist] = refisterErrorList
-    #   redirect_to action: 'new'
-    #   return;
-    # end
+    if @new_coupon_shop.shop_name.include?(@new_coupon_shop.subsidiary_company_name)
+      refisterErrorList.push("店名にサービス名が入っています。");
+    end
+
+    #電話番号の重複チェック(電話番号の一意性チェック)
+    if CouponShopList.where(telephone_number: register_post_params[:telephone_number]).count > 0
+      refisterErrorList.push("お客様の入力した電話番号はすでに登録されています。");
+      flash[:errorlist] = refisterErrorList
+      redirect_to action: 'new'
+      return;
+    end
+
+    # CouponShopList.where("shop_master_id = :shop_master_id and telephone_number = :telephone_number", shop_master_id: params[:coupon_shop_list][:shop_master_id], telephone_number: params[:coupon_shop_list][:telephone_number])
+    # CouponShopList.where("shop_master_id = :shop_master_id and telephone_number = :telephone_number", shop_master_id: params[:coupon_shop_list][:shop_master_id], telephone_number: params[:coupon_shop_list][:telephone_number]).count
+    #重複登録を防ぐ。
+    if CouponShopList.where("subsidiary_company_name = :subsidiary_company_name and shop_name = :shop_name", subsidiary_company_name: params[:coupon_shop_list][:subsidiary_company_name], shop_name: params[:coupon_shop_list][:shop_name]).count > 0
+      refisterErrorList.push("お客様の入力した情報はすでに登録されています。");
+      flash[:errorlist] = refisterErrorList
+      redirect_to action: 'new'
+      return;
+    end
+
+    if refisterErrorList.present?
+      flash[:errorlist] = refisterErrorList
+      redirect_to action: 'new'
+      return;
+    end
 
   end
 

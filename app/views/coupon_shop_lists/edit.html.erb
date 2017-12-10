@@ -13,7 +13,7 @@
 <div class="container">
   <div class="wrapper col-md-8 col-md-offset-2 col-sm-10">
     <!-- <%#= form_for(@edit_shop, url: choose_new_or_edit) do |f| %> -->
-    <%= form_for(@edit_shop, url: coupon_shop_info_check) do |f| %>
+    <%= form_for(@edit_shop, url: confirm_coupon_shop_lists_path) do |f| %>
     <%= f.hidden_field :branch_office_id  %>
     <%= f.hidden_field :id  %>
     <%= f.hidden_field :subsidiary_company_name %>

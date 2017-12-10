@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171126030118) do
+ActiveRecord::Schema.define(version: 20171203112652) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -88,8 +88,18 @@ ActiveRecord::Schema.define(version: 20171126030118) do
   add_index "general_users", ["email"], name: "index_general_users_on_email", unique: true, using: :btree
   add_index "general_users", ["reset_password_token"], name: "index_general_users_on_reset_password_token", unique: true, using: :btree
 
+  create_table "relation_shops", force: :cascade do |t|
+    t.string   "name"
+    t.string   "shop_master_id"
+    t.string   "shop_manager_id"
+    t.integer  "not_used"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "relation_shops", ["shop_manager_id", "shop_master_id"], name: "index_relation_shops_on_shop_manager_id_and_shop_master_id", unique: true, using: :btree
+
   create_table "shop_managers", force: :cascade do |t|
-    t.string   "shop_master_id",                                  null: false
     t.datetime "created_at",                                      null: false
     t.datetime "updated_at",                                      null: false
     t.string   "email",                              default: "", null: false

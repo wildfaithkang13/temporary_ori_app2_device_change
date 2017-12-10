@@ -1,21 +1,33 @@
 class ShopManagers::RegistrationsController < Devise::RegistrationsController
-  # before_action :configure_sign_up_params, only: [:create]
-  # before_action :configure_account_update_params, only: [:update]
 
   # GET /resource/sign_up
-  # def new
-  #   super
-  # end
+  def new
+    @shop_manager = ShopManager.new
+    @shop_manager.relation_shops.build
+    # super
+  end
 
   # POST /resource
   def create
     #デフォルトはコメントアウトしておく
-    available = AvailableCouponServiceShopMaster.find_by(shop_master_id: params[:shop_manager][:shop_master_id])
+
+    array_shop_master_id = params[:shop_manager][:relation_shops_attributes]
+
+    target_shop_master = array_shop_master_id.values.map{|value| value["shop_master_id"]}
+    available = AvailableCouponServiceShopMaster.where(shop_master_id: target_shop_master)
 
     #メルアドとパスワード未入力は親クラスで検知できるが、コントローラ側で即判定を行う。
     errorList = Array.new
 
+    #リクエストで送られたショップマスタIDを元にレコードを作成する
+    shop_master_id = params[:shop_manager][:relation_shops_attributes]
+    @create = ShopManager.new(set_associate_params)
+    #ここで管理者テーブルを設定してはいけない
+    #https://qiita.com/xend/items/79184ded56158ea1b97a にあるBULK INSERTを使えば一括で登録できそう。
+    @create.relation_shops.build
+
     register_name = params[:shop_manager][:name]
+    array_shop_master_id = params[:shop_manager][:relation_shops_attributes]
     register_email = params[:shop_manager][:email]
     register_occupation = params[:shop_manager][:occupation]
     register_address = params[:shop_manager][:address]
@@ -64,6 +76,11 @@ class ShopManagers::RegistrationsController < Devise::RegistrationsController
 
     if agreementValue == "0"
       errorList.push("利用規約同意のチェックがついていません");
+    end
+
+    if @create.save    
+    else
+      errorList.push("登録に失敗しました。");
     end
 
     isError = !errorList.blank?
@@ -119,12 +136,20 @@ class ShopManagers::RegistrationsController < Devise::RegistrationsController
   # end
 
   # The path used after sign up.
-  # def after_sign_up_path_for(resource)
-  #   super(resource)
-  # end
+  def after_sign_up_path_for(resource)
+    super(resource)
+  end
 
   # The path used after sign up for inactive accounts.
   # def after_inactive_sign_up_path_for(resource)
   #   super(resource)
   # end
+
+private
+  def set_associate_params
+    #params.require(:relation_shop).permit(:name, :shop_master_id)
+    params.require(:shop_manager).permit(:name,:status, :email, :occupation, :employee_status, :register_shop_count, :multi_store_manager_flag, :address, :password, :password_confirmation, :birthday, :nationality, :sex,
+       relation_shops_attributes: [:id, :name, :shop_master_id, :not_used, :_destroy])
+  end
+
 end

@@ -17,6 +17,9 @@
 //= require_tree .
 //= require moment
 //= require bootstrap-datetimepicker
+//= require jquery_nested_form
+//= require nested_form_fields
+
 
 
 $(document).on('ready page:load', function() {
@@ -31,8 +34,36 @@ $(document).on('ready page:load', function() {
   });
 });
 
-$(function() {
-
+// $(function() {
+//   var model = {
+//     count: 0
+//   }
+//
+// // debugger
+//   var initShopMaster = $(`#shop_manager_relation_shops_attributes_${model.count}_shop_master_id`)
+//   initShopMaster.attr("name", "add_shop[shop_master_id" + model.count + "]")
+//
+//   $(".add_master_row").on("click", "button", function(){
+//     // var mainContent = $(".master_id_content")
+//     model.count += 1
+//
+//     var cloneDom = $(".master_id_content")
+//     newInput = $("<input />")
+//     newName = "add_shop[shop_master_id" + model.count + "]"
+//     newName = `add_shop[shop_master_id${model.count}]`
+//
+//     deleteButton = $("<button />")
+//     deleteButton.text("delete")
+//     deleteButton.attr("type", "button")
+//     deleteButton.attr("class", "delete_form")
+//     newInput.attr("name", newName)
+//     $(newInput).appendTo(".add_master_row")
+//     $(deleteButton).appendTo(cloneDom)
+//   })
+//
+//   $(".delete_form").on("click", function(e){
+//     debugger
+//   })
   //利用規約への同意エラー表示スタイル調整
   error_block = $(".agreement  .help-inline");
   if(error_block){
