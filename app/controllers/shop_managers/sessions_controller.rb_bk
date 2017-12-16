@@ -71,48 +71,45 @@ class ShopManagers::SessionsController < Devise::SessionsController
 
   def after_sign_in_path_for(resource_or_scope)
 
-        #管理者のログイン時のみ以下を検証する
-        login_branch_office_id  = params[:shop_manager][:branch_office_id]
-         get_branch_office_id_result = CouponShopList.find_by(branch_office_id: login_branch_office_id)
+      #管理者のログイン時のみ以下を検証する
+      login_branch_office_id  = params[:shop_manager][:branch_office_id]
+       get_branch_office_id_result = CouponShopList.find_by(branch_office_id: login_branch_office_id)
 
-         #入力した支店IDをチェックする。ユーザーが利用できる支店IDかどうかをチェエックする
-         # params[:shop_manager][:email]で管理者テーブルを検索
-         get_shop_manager_info = ShopManager.find_by(email: params[:shop_manager][:email]);
-         get_own_branch_office_id = get_shop_manager_info[:branch_office_id]
+       #入力した支店IDをチェックする。ユーザーが利用できる支店IDかどうかをチェエックする
+       # params[:shop_manager][:email]で管理者テーブルを検索
+       get_shop_manager_info = ShopManager.find_by(email: params[:shop_manager][:email]);
+       get_own_branch_office_id = get_shop_manager_info[:branch_office_id]
 
-         # @myshop.holiday = @myshop.holiday.delete("[")
-         # @myshop.holiday = @myshop.holiday.delete("]")
-         # @myshop.holiday = @myshop.holiday.gsub!("\"","")
-         # s.include?(0x6c)
+       # @myshop.holiday = @myshop.holiday.delete("[")
+       # @myshop.holiday = @myshop.holiday.delete("]")
+       # @myshop.holiday = @myshop.holiday.gsub!("\"","")
+       # s.include?(0x6c)
 
-  # get_shop_manager_info[:branch_office_id].split(",")
+# get_shop_manager_info[:branch_office_id].split(",")
 
-         # raise
+       # raise
 
-         # login_branch_office_id
+       # login_branch_office_id
 
 
-         unless get_branch_office_id_result.blank?
-          #  user = ShopManager.find(current_user.id)
-          #  current_user.shop_master_id = params[:shop_manager][:shop_master_id]
-          # いらないかも
-          session[:shop_master_id] = params[:shop_manager][:shop_master_id]
-          session[:branch_office_id] = params[:shop_manager][:branch_office_id]
-           current_user.status = '30'
-           #ショップ入力したショップ管理番号にお店の管理者としてクーポンを発行するため、使用中にする
-           #current_user.branch_office_id = get_branch_office_id_result.branch_office_id
-           current_user.save
-           coupons_path
-         else
-           curret_user = ShopManager.find(current_user.id)
-          #  暗号化必要っぽい
-           session[:shop_master_id] = params[:shop_manager][:shop_master_id]
-          #  current_user.shop_master_id = params[:shop_manager][:shop_master_id]
-           curret_user.status = '20'
-           curret_user.save
-           # root_path
-           coupons_path
-         end
-         #それ以外のパターンは何もしない
-     end
+       unless get_branch_office_id_result.blank?
+        #  user = ShopManager.find(current_user.id)
+         current_user.shop_master_id = params[:shop_manager][:shop_master_id]
+         current_user.status = '30'
+         #ショップ入力したショップ管理番号にお店の管理者としてクーポンを発行するため、使用中にする
+         #current_user.branch_office_id = get_branch_office_id_result.branch_office_id
+         current_user.save
+         coupons_path
+       else
+         curret_user = ShopManager.find(current_user.id)
+         current_user.shop_master_id = params[:shop_manager][:shop_master_id]
+         curret_user.status = '20'
+         curret_user.save
+         # root_path
+         coupons_path
+       end
+       #それ以外のパターンは何もしない
+   end
+
+
 end

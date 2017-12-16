@@ -13,7 +13,7 @@ class CouponShopListsController < ApplicationController
     @coupon_shop = CouponShopList.new
     #親会社名を取得する
     # getParentCompanyInfo = current_user.shop_master_idをキーに検索する
-    @getParentCompanyInfo = AvailableCouponServiceShopMaster.find_by(shop_master_id: session[:shop_master_id])
+    @getParentCompanyInfo = AvailableCouponServiceShopMaster.find_by(shop_master_id: current_user.shop_master_id)
   end
 
   def create
@@ -26,7 +26,7 @@ class CouponShopListsController < ApplicationController
       @new_coupon_shop.close_time = nil
     end
 
-    #@new_coupon_shop.shop_master_id = current_user.shop_master_id
+    @new_coupon_shop.shop_master_id = current_user.shop_master_id
 
     #支店IDを追加する。
     # raise
@@ -37,12 +37,20 @@ class CouponShopListsController < ApplicationController
     if current_user.branch_office_id.blank?
       #初回登録時でも配列として入れておく
       @new_coupon_shop.branch_office_id = SecureRandom.urlsafe_base64
+      # @update_shop_manager.branch_office_id = [@new_coupon_shop.branch_office_id]
       arrayBranchOfficeId.push(@new_coupon_shop.branch_office_id);
       @update_shop_manager.branch_office_id = arrayBranchOfficeId
     else
+      #2回目以降の登録の場合
+      #[]の状態なのでまず[]を外す
+      # @update_shop_manager.branch_office_id = @update_shop_manager.branch_office_id.delete("[")
+      # @update_shop_manager.branch_office_id = @update_shop_manager.branch_office_id.delete("]")
+      # @update_shop_manager.branch_office_id = @update_shop_manager.branch_office_id.gsub!("\"","")
+
       @new_coupon_shop.branch_office_id = SecureRandom.urlsafe_base64
-      arrayBranchOfficeId = @update_shop_manager.branch_office_id
-      @update_shop_manager.branch_office_id = eval(arrayBranchOfficeId).push(@new_coupon_shop.branch_office_id)
+      # @update_shop_manager.branch_office_id = [@update_shop_manager.branch_office_id + "," + @new_coupon_shop.branch_office_id]
+      # @update_shop_manager.branch_office_id = arrayBranchOfficeId
+      @update_shop_manager.branch_office_id.push(@new_coupon_shop.branch_office_id)
     end
 
     #uuidでidを採番する
@@ -212,9 +220,7 @@ class CouponShopListsController < ApplicationController
   end
 
   def myshop
-
-    # @target_branch_office_id = eval(current_user[:branch_office_id])
-    @myshop = CouponShopList.find_by(branch_office_id: session[:branch_office_id])
+    @myshop = CouponShopList.find_by(branch_office_id: current_user[:branch_office_id])
     myShopHolidays = Array.new
     case @myshop.occupation_code
       when 'hotel' then

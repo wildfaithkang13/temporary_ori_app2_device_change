@@ -7,92 +7,114 @@ class ShopManagers::RegistrationsController < Devise::RegistrationsController
     # super
   end
 
-  # POST /resource
   def create
-    #デフォルトはコメントアウトしておく
+      #デフォルトはコメントアウトしておく
 
-    array_shop_master_id = params[:shop_manager][:relation_shops_attributes]
+      array_shop_master_id = params[:shop_manager][:relation_shops_attributes]
 
-    target_shop_master = array_shop_master_id.values.map{|value| value["shop_master_id"]}
-    available = AvailableCouponServiceShopMaster.where(shop_master_id: target_shop_master)
+      target_shop_master = array_shop_master_id.values.map{|value| value["shop_master_id"]}
 
-    #メルアドとパスワード未入力は親クラスで検知できるが、コントローラ側で即判定を行う。
-    errorList = Array.new
+      available = AvailableCouponServiceShopMaster.where(shop_master_id: target_shop_master)
 
-    #リクエストで送られたショップマスタIDを元にレコードを作成する
-    shop_master_id = params[:shop_manager][:relation_shops_attributes]
-    @create = ShopManager.new(set_associate_params)
-    #ここで管理者テーブルを設定してはいけない
-    #https://qiita.com/xend/items/79184ded56158ea1b97a にあるBULK INSERTを使えば一括で登録できそう。
-    @create.relation_shops.build
+      #メルアドとパスワード未入力は親クラスで検知できるが、コントローラ側で即判定を行う。
+      errorList = Array.new
 
-    register_name = params[:shop_manager][:name]
-    array_shop_master_id = params[:shop_manager][:relation_shops_attributes]
-    register_email = params[:shop_manager][:email]
-    register_occupation = params[:shop_manager][:occupation]
-    register_address = params[:shop_manager][:address]
-    register_password = params[:shop_manager][:password]
-    register_birthday = params[:shop_manager][:birthday]
-    register_nationality = params[:shop_manager][:nationality]
-    register_sex = params[:shop_manager][:sex]
-    agreementValue = params[:shop_manager][:agreement]
+      #リクエストで送られたショップマスタIDを元にレコードを作成する
+      shop_master_id = params[:shop_manager][:relation_shops_attributes]
+      @create = ShopManager.new(set_associate_params)
 
-    if register_name.blank?
-      errorList.push("名前が入力されておりません");
+      #ここで管理者テーブルを設定してはいけない
+      #<https://qiita.com/xend/items/79184ded56158ea1b97a> にあるBULK INSERTを使えば一括で登録できそう。
+
+      register_name = params[:shop_manager][:name]
+      array_shop_master_id = params[:shop_manager][:relation_shops_attributes]
+      register_email = params[:shop_manager][:email]
+      register_occupation = params[:shop_manager][:occupation]
+      register_address = params[:shop_manager][:address]
+      register_password = params[:shop_manager][:password]
+      register_birthday = params[:shop_manager][:birthday]
+      register_nationality = params[:shop_manager][:nationality]
+      register_sex = params[:shop_manager][:sex]
+      agreementValue = params[:shop_manager][:agreement]
+
+      if register_name.blank?
+        errorList.push("名前が入力されておりません");
+      end
+
+      if register_email.blank?
+        errorList.push("メールアドレスが入力されておりません");
+      end
+
+      if register_email.blank?
+        errorList.push("職業が選択されておりません");
+      end
+
+      if register_address.blank?
+        errorList.push("住所が入力されておりません");
+      end
+
+      if available.blank?
+        errorList.push("店舗マスタIDが存在しません");
+      end
+
+      if register_password.blank?
+        errorList.push("パスワードが入力されておりません。");
+      end
+
+      if register_birthday.blank?
+        errorList.push("生年月日が設定されておりません");
+      end
+
+      if register_nationality.blank?
+        errorList.push("国籍が設定されておりません");
+      end
+
+      #以下のエラーが通常ありえないので万が一発生した場合は危険ユーザー(ハッカー)として扱う。
+      if register_sex.blank?
+        errorList.push("性別が設定されておりません");
+      end
+
+      if agreementValue == "0"
+        errorList.push("利用規約同意のチェックがついていません");
+      end
+
+      if @create.valid?
+      else
+        errorList.push("登録に失敗しました。");
+      end
+
+      # build_resource(@create)
+
+      isError = !errorList.blank?
+      if isError
+          flash[:errorlist] = errorList
+          redirect_to action: 'new'
+          return;
+      end
+
+       #継承元のdeviseのコントローラーの動きは<https://github.com/plataformatec/devise>を確認すること
+
+       @create.save
+      yield @create if block_given?
+      if @create.persisted?
+        if @create.active_for_authentication?
+          # binding.pry
+          set_flash_message! :notice, :signed_up
+          sign_up(resource_name, @create)
+          respond_with @create, location: after_sign_up_path_for(@create)
+        else
+          set_flash_message! :notice, :"signed_up_but_#{resource.inactive_message}"
+          expire_data_after_sign_in!
+          respond_with @create, location: after_inactive_sign_up_path_for(@create)
+        end
+      else
+        clean_up_passwords resource
+        set_minimum_password_length
+        respond_with @create
+      end
     end
 
-    if register_email.blank?
-      errorList.push("メールアドレスが入力されておりません");
-    end
 
-    if register_email.blank?
-      errorList.push("職業が選択されておりません");
-    end
-
-    if register_address.blank?
-      errorList.push("住所が入力されておりません");
-    end
-
-    if available.blank?
-      errorList.push("店舗マスタIDが存在しません");
-    end
-
-    if register_password.blank?
-      errorList.push("パスワードが入力されておりません。");
-    end
-
-    if register_birthday.blank?
-      errorList.push("生年月日が設定されておりません");
-    end
-
-    if register_nationality.blank?
-      errorList.push("国籍が設定されておりません");
-    end
-
-    #以下のエラーが通常ありえないので万が一発生した場合は危険ユーザー(ハッカー)として扱う。
-    if register_sex.blank?
-      errorList.push("性別が設定されておりません");
-    end
-
-    if agreementValue == "0"
-      errorList.push("利用規約同意のチェックがついていません");
-    end
-
-    if @create.save    
-    else
-      errorList.push("登録に失敗しました。");
-    end
-
-    isError = !errorList.blank?
-    if isError
-        flash[:errorlist] = errorList
-        redirect_to action: 'new'
-        return;
-    end
-
-     #継承元のdeviseのコントローラーの動きはhttps://github.com/plataformatec/deviseを確認すること
-     super
-  end
 
   # def build_resource(hash=nil)
   #   hash[:shop_master_id] = params[:shop_manager][:shop_master_id]
@@ -100,9 +122,10 @@ class ShopManagers::RegistrationsController < Devise::RegistrationsController
   # end
 
   # GET /resource/edit
-  # def edit
-  #   super
-  # end
+  def edit
+    @edit = RelationShop.where(shop_manager_id: current_user.id)
+    super
+  end
 
   # PUT /resource
   # def update

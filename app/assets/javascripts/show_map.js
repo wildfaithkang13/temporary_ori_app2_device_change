@@ -86,8 +86,6 @@ function hereMap(geocodedShopList) {
         });
         // DBに登録されているお店の緯度軽度を取得する
         for (var i = 0; i < geocodedShopList.length; i++) {
-          // console.log(geocodedShopList[i]);
-          // console.log(geocodedShopList.length);
           markerLatLng = new google.maps.LatLng({lat: geocodedShopList[i]['shop_latitude'], lng: geocodedShopList[i]['shop_longtitude']});
                marker[i] = new google.maps.Marker({
                  /* このポジションがピンをさす場所を表している */

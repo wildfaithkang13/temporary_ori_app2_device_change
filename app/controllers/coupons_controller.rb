@@ -20,16 +20,15 @@ class CouponsController < ApplicationController
   end
 
   def new
-    @target_branch_office_id = current_user[:branch_office_id]
-    @myshop = CouponShopList.find_by(branch_office_id: @target_branch_office_id)
-    # branch_office_id
+    @target_branch_office_id = eval(current_user[:branch_office_id])
+    @myshop = CouponShopList.find_by(branch_office_id: session[:branch_office_id])
     @coupon = Coupon.new
   end
 
   def create
     @targetSendEmail = current_user.email
     @coupon = Coupon.new(coupons_params)
-    @associated = CouponShopList.find_by(branch_office_id: current_user[:branch_office_id])
+    @associated = CouponShopList.find_by(branch_office_id: session[:branch_office_id])
     @coupon.available_end_time = @coupon.available_end_time + 3599
     @coupon.coupon_shop_lists_id = current_user[:branch_office_id]
     @coupon.coupon_shop_list_id = @associated.id
@@ -38,15 +37,15 @@ class CouponsController < ApplicationController
     content = 'show ip route' # QRコードの中身
     xdim    = 3  # 一番細いバーの幅
     code128 = Barby::Code128B.new(content)
-    @code128 = code128.to_image(xdim: xdim).to_data_url
-
-    #QRコード
+    get_data_url = code128.to_image(xdim: xdim).to_data_url.delete("data:image/png;base64,")
+    #逆にクーポンを表示する時は設定する
+    @coupon.coupon_one_barcode_value = get_data_url
 
     if @coupon.save
       # 一覧画面へ遷移して"ブログを作成しました！"とメッセージを表示します。
       redirect_to root_path, alert: "クーポンを投稿しました！"
 
-      #TODO クーポン発行元の半径3km以内にいるユーザに対してメールを配信したい。
+      #TODO クーポン発行元の半径3km以内にいるユーザに対してメールを配信。
       NoticeMailer.sendmail_coupon(@coupon, @targetSendEmail).deliver
     else
       # 入力フォームを再描画します。
@@ -71,26 +70,24 @@ class CouponsController < ApplicationController
     xdim    = 3  # 一番細いバーの幅
     code128 = Barby::Code128B.new(content)
     @code128 = code128.to_image(xdim: xdim).to_data_url
+    @one_barcode = @coupon_detail.coupon_one_barcode_value.insert(0, "data:image/png;base64,")
+
     #
     # #QRコードを生成する
     # content = 'show ip route' # QRコードの中身
     # size    = 3 # QRコードのバージョン 1〜40
     # level   = :m # 誤り訂正レベル, l/m/q/h
     xdim    = 3  # 一番細いバーの幅
-    #
-    # # QRコード生成
-    # qrcode = Barby::QrCode.new(content, size: size, level: level)
-    # @qrCode = qrcode.to_image(xdim: xdim).to_data_url
 
     #アクセスするリンクを埋め込む(パラメーターが利用済みフラグを渡す)
 
+    #QRコード生成
     data = <<-"EOS"
       http://google.com
     EOS
 
     qrcode = Barby::QrCode.new(data.encode("UTF-8"))
     @qrCode = qrcode.to_image(xdim: xdim).to_data_url
-
 
   end
 
@@ -132,10 +129,15 @@ class CouponsController < ApplicationController
   def getcoupons
     get_coupons = Array.new
     sample = JSON.parse(params[:target_shop_list])
-
     sample.each_with_index.reverse_each do |shop_management_id, index|
     #店舗管理IDをキーにクーポンを取得する
-    tmps = Coupon.where(coupon_shop_lists_id: sample[index]['branch_office_id'])
+
+    #以下のクエリで取得ができる
+    # where("カラム名 like '%検索テキスト%'")
+    keyword = "'%" + sample[index]['branch_office_id'] + "%'"
+    # select * from coupons where coupon_shop_lists_id like '%uiA-Et3c4dbJgPgPMFwMkg%';
+    # tmps = Coupon.where(coupon_shop_lists_id: sample[index]['branch_office_id'])
+      tmps = Coupon.where("coupon_shop_lists_id like " + keyword)
       tmps.each do |tmp|
         get_coupons.push(tmp)
       end
@@ -162,6 +164,12 @@ class CouponsController < ApplicationController
       confirmErrorList.push('クーポン利用終了時刻が未入力です。');
     end
 
+    if params[:coupon][:coupon_type]== "2"
+      if params[:coupon][:available_limit_count].blank?
+        confirmErrorList.push('利用限度回数が未設定です。');
+      end
+    end
+
     if confirmErrorList.present?
       flash[:errorlist] = confirmErrorList
       redirect_to action: 'new'
@@ -177,6 +185,6 @@ class CouponsController < ApplicationController
 
   private
   def coupons_params
-    params.require(:coupon).permit(:shop_name, :shop_address, :coupon_title, :coupon_content, :available_start_time, :available_end_time)
+    params.require(:coupon).permit(:shop_name, :shop_address, :coupon_title, :coupon_content, :available_start_time, :available_end_time, :coupon_type, :available_limit_count)
   end
 end

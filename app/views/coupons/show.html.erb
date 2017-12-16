@@ -6,9 +6,10 @@
 クーポン利用終了時刻：<%= @coupon_detail.available_end_time.strftime('%Y年%m月%d日 %H:%M:%S') %><br>
 
 <p>1次元バーコードの値</p><br>
-<%= @code128 %><br>
-<p>QRコードの値</p><br>
-<%= @qrCode %>
+<%#= @coupon_detail.coupon_one_barcode_value %><br>
+<%#= @code128 %><br>
+<!-- <p>QRコードの値</p><br> -->
+<%#= @qrCode %>
 
 <!-- バーコードの値はStringm型で持たせる　-->
 <!--
@@ -16,12 +17,14 @@ data:image/png;base64,の部分を切り取ってDBに登録する
 詳細画面表示時にDBからバーコード生成値を取得して前に「data:image/png;base64,」を結合する
 -->
 
-<b>複数回利用できるクーポンは1次元バーコードを表示。</b><br>
-<img src="<%= @code128 %>"><br>
+<!-- <b>複数回利用できるクーポンは1次元バーコードを表示。</b><br> -->
+<!-- <img src="<%#= @code128 %>"><br> -->
+<img src="<%= @one_barcode %>"><br>
+
 <!-- 店舗側がQRコードを取得する -->
-<b>1回限りの利用の場合はQRコードを表示する</b><br>
+<!-- <b>1回限りの利用の場合はQRコードを表示する</b><br> -->
 <!-- どうやって未使用、利用済みを判断するか -->
-<img src="<%= @qrCode %>"><br>
+<!-- <img src="<%#= @qrCode %>"><br> -->
 
 <!--
 QRコード参考サイト:http://wp.tech-style.info/archives/932

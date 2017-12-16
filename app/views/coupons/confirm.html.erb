@@ -6,12 +6,28 @@
   <%= f.hidden_field :coupon_content %>
   <%= f.hidden_field :available_start_time %>
   <%= f.hidden_field :available_end_time %>
+  <%= f.hidden_field :coupon_type %>
+  <%= f.hidden_field :available_limit_count %>
   <p>店名:<%= @coupon.shop_name %></p>
   <p>住所:<%= @coupon.shop_address %></p>
   <p>クーポンタイトル:<%= @coupon.coupon_title %></p>
   <p>クーポン内容:<%= @coupon.coupon_content %></p>
   <p>利用開始時刻:<%= @coupon.available_start_time.strftime("%Y年%m月%d日") %></p>
   <p>利用終了時刻:<%= @coupon.available_end_time.strftime("%Y年%m月%d日") %></p>
+  <%# if @coupon.coupon_type == 2 %>
+  <% case @coupon.coupon_type %>
+    <% when 1 then%>
+      <p>クーポンの種類:利用期間中に1回のみ利用可</p>
+    <% when 2 then%>
+      <p>クーポンの種類:利用期間中に<%= @coupon.available_limit_count%>回のみ利用可</p>
+    <% when 3 then%>
+      <p>クーポンの種類:利用期間中に何回でも利用可</p>
+  <% else %>
+  <% end %>
+
+
+  <p>クーポンの種類：
+
   <%= f.submit "登録する" %>
 <% end %>
 <%= link_to "クーポン投稿画面にもどる", new_coupon_path %>

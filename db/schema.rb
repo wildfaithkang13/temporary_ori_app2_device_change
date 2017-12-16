@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171203112652) do
+ActiveRecord::Schema.define(version: 20171212151921) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,8 +52,8 @@ ActiveRecord::Schema.define(version: 20171203112652) do
   create_table "coupons", force: :cascade do |t|
     t.string   "shop_name"
     t.text     "coupon_title"
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
     t.float    "latitude"
     t.float    "longitude"
     t.string   "shop_address"
@@ -62,6 +62,9 @@ ActiveRecord::Schema.define(version: 20171203112652) do
     t.string   "coupon_shop_lists_id"
     t.integer  "coupon_shop_list_id"
     t.string   "coupon_content"
+    t.integer  "coupon_type"
+    t.integer  "available_limit_count"
+    t.string   "coupon_one_barcode_value"
   end
 
   create_table "general_users", force: :cascade do |t|

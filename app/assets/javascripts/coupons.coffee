@@ -21,3 +21,13 @@ $ ->
       $('.holiday-condition').css 'display', 'block'
     return
   return
+
+$ ->
+  $('.coupon_type-check input[type=radio]').change (e) ->
+    #数値型であっても判定するときは文字列となる
+    if e.target.value == '2'
+      $('.coupon-time-click').css 'display', 'block'
+    else
+      $('.coupon-time-click').css 'display', 'none'
+    return
+  return

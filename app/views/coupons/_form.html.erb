@@ -20,5 +20,43 @@
       <%= f.text_field :available_end_time, class: 'form-control'%>
       <span class="input-group-addon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
     </div><br>
+
+    <!-- クーポンタイプを選択する -->
+    <div class="coupon_type-check">
+    <%= f.label :coupon_type, "クーポンの種類" %><br>
+    <label><%= f.radio_button :coupon_type, 1 ,{:checked => true}%> クーポン利用期間中に1回だけ利用可</label><br>
+    <label><%= f.radio_button :coupon_type, 2  %> クーポン利用期間中に複数回利用可</label><br>
+    <label><%= f.radio_button :coupon_type, 3 %> クーポン利用期間中に何度でも利用可</label><br>
+    </div>
+
+    <div class="coupon-time-click">
+        <label for="username" class="cols-sm-2 control-label">利用限度回数を設定してください。</label>
+        <%= f.select :available_limit_count, [
+                                  ["1", 1],
+                                  ["2", 2],
+                                  ["3", 3],
+                                  ["4", 4],
+                                  ["5", 5],
+                                  ["6", 6],
+                                  ["7", 7],
+                                  ["8", 8],
+                                  ["9", 9],
+                                  ["10", 10],
+                                  ["11", 11],
+                                  ["12", 12],
+                                  ["13", 13],
+                                  ["14", 14],
+                                  ["15", 15],
+                                  ["16", 16],
+                                  ["17", 17],
+                                  ["18", 18],
+                                  ["19", 19],
+                                  ["20", 20],
+                              ] ,
+                              {include_blank:'選択してください'},mutiple:true,
+                              class:"form-control"%>
+
+    </div><br>
+
     <%= f.submit("クーポン登録") %>
 <% end %>
